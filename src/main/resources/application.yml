@@ -1,0 +1,57 @@
+      
+            
+            
+ spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: a096bf8c3111f20c1646
+            clientSecret: 16b78ea2e6b57979961479a9a950855dec07fa96
+          google:
+            client-id: 160426392406-ma4gghvuqe40rakicr86ujdfd4d0dmsq.apps.googleusercontent.com 
+            client-secret: tOeAPWUVw6fPnQ_AocWPP6XX
+          facebook:
+            client-id: 928593750949259 
+            client-secret: 79369b5e40384747233b6d9859392cea
+            
+# ...
+
+
+
+ 
+
+
+
+#sping:
+ # security:
+#    oauth2:
+      #client:
+        #    client-id: 160426392406-ma4gghvuqe40rakicr86ujdfd4d0dmsq.apps.googleusercontent.com;
+       #     client-secret: tOeAPWUVw6fPnQ_AocWPP6XX
+      #      accessTokenUri: https://www.facebook.com/oauth/access_token
+     #       userAuthorizationUri: https://www.facebook.com/dialog/oauth
+    #        tokenName: oauth_token
+   #         authenticationScheme: query
+  #          clientAuthenticationScheme: form
+ #resource: 
+ 
+ 
+ 
+#
+#spring.security.oauth2.client.registration.google.client-id=160426392406-ma4gghvuqe40rakicr86ujdfd4d0dmsq.apps.googleusercontent.com
+#spring.security.oauth2.client.registration.google.client-secret=tOeAPWUVw6fPnQ_AocWPP6XX
+#	
+ 
+#spring.datasource.url=jdbc:mysql://localhost:3306/schedule
+# 
+#spring.datasource.username=root
+#spring.datasource.password =12345
+#spring.jpa.hibernate.ddl-auto=update
+#spring.jpa.hibernate.naming-strategy=org.hibernate.cfg.ImprovedNamingStrategy
+#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+#logging.level.org.springframework.web= debug	
+#spring.thymeleaf.cache=false
+#spring.jpa.show-sql=true
+ 

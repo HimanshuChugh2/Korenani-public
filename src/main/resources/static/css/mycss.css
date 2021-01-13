@@ -1,0 +1,156 @@
+ 
+
+@media screen and (min-width: 768px) 
+	{ 
+		.logincontainer 
+  			{
+   				 background-color: purple;
+  			} 
+}
+
+
+@media screen and (min-width: 992px)  
+		{  
+
+  		.logincontainer 
+  			{
+   				 background-color: yellow;
+  			}
+ 		}
+
+
+/* @media screen and (min-width: 1200px) 
+	{ */
+ 	 .navbar-custom
+		{   
+/* 		 background-color: #ffa4b4;
+		 padding: 1.5%; */
+		 
+		 color:white;
+		} 
+		
+		.signinicons
+		{  
+		/* height:60px; */
+		border-radius: 20px;
+		/*  margin-right:20%; */
+ 		margin-right:5%;
+		margin-bottom:5%; 
+		}
+		
+		.signincontainer
+		{
+		 padding-top:1%;
+		 margin-top:1%;
+		 width:35%; 
+		 background-color: white; 
+		}
+		/*  link tag makes span within it blue so to make it black i do the below */
+		a span 
+		{
+		color:#000;
+		}
+		
+		.socialsignincontents
+		{
+		 text-align:center;
+		/*  margin-top:-2%; */
+		
+		  
+		/*  padding: 10%; */
+		/*  padding-left:18%;
+		 padding-top:2%;
+		 padding-bottom:5%;
+		 margin-top:2%; */
+		}
+		.date
+		{
+		color:gray; 
+		
+		}
+		.customsignincontents
+		{ 
+		 margin:0 auto;
+		 width:70%
+		}
+		
+		.border-nashi
+		{
+			border-color:transparent;
+		}
+		
+		
+		.border-nashi:focus 
+		{
+			border-color:transparent;
+		 	box-shadow: 0 0 0 rgb(255, 255, 255);
+		 /*to remove textbox border*/
+		}
+
+
+		.my-bordered-icon{
+ 		 text-shadow: -10px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+		}
+		
+		#dislikeButton:hover
+		{
+  			color:pink;
+		}
+		
+		#givenrose:hover
+		{
+		color:pink;
+		}
+		
+		#
+		
+ 
+
+		/* input:focus {
+ 		 background-color: yellow;
+} */
+	
+	/* } */
+
+
+
+
+
+
+
+
+/* 
+@media screen and (min-width: 992px)  
+		{  
+
+  		.logincontainer 
+  			{
+   				 background-color: yellow;
+  			}
+ 		}
+
+@media screen and (min-width: 768px) 
+	{ 
+		.logincontainer 
+  			{
+   				 background-color: purple;
+  			} 
+}
+
+@media screen and (min-width: 400px)  
+		{ 
+			.logincontainer 
+				{
+  					background-color: red;
+				} 
+		}
+ */
+// Medium devices (tablets, 768px and up)
+
+// Large devices (desktops, 992px and up)
+
+// Extra large devices (large desktops, 1200px and up)
+ 
+	
+	
+	

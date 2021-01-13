@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">  
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Demo</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <base href="/"/>
+  <head th:replace="fragments/header :: headHeader">
+
+
+
+ 
+</head>
+<body>
+  
+  <div th:replace="fragments/header :: navForViewer">
+  
+</div>
+  <h1> Hello, This page is accessible to all </h1>
+<div th:if="${message}"   class="alert alert-danger"> 
+	      <h4 class="alert-heading">Information</h4>
+	
+	<span th:text="${message}"></span>
+	</div>
+      
+
+</body>
+</html>

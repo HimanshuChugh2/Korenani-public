@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">  
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Demo</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <base href="/"/>
+    
+      <!-- Main Quill library -->
+ 
+
+<link href="/mystylesheet.css" th:href="@{css/modalpopup.css}"  rel="stylesheet"  type="text/css">
+ 	
+  
+<head th:replace="fragments/header :: headHeader">   
+</head>
+
+<head th:replace="fragments/header :: quillScriptFiles">
+</head>
+</head>
+
+<body>
+   <div th:replace="fragments/header :: CreatorsNavbar">
+</div>
+
+<!-- th:action="@{/creators/creating}" -->
+<!-- <form    method="post">
+ -->
+<div class="container">
+ 
+ 
+
+<Form th:object="${createContent}">
+
+id
+<span th:field="*{id}" th:text="*{id}" id="id"> id </span>
+<hr>
+cid
+<span id="cid" > 0</span>
+<hr>
+<span th:if="${DraftAlreadyExists}">
+<span th:text="${DraftAlreadyExists}">
+
+</span>
+</span>
+<span th:text="${DraftAlreadyExists}">
+</span>
+
+<div class="form-group"> 
+  <input  class="form-control border-nashi"   type="text" id="topic" placeholder="Enter title" th:field="*{topic}" >
+ </div>
+ 
+ <div class="form-group">
+  <input type="text" style="display:none" class="form-control border-nashi" id="datajso" th:field="*{data}">
+    </div>
+  
+  <div class="form-group"> 
+   <input type="text" class="form-control border-nashi" id="description" placeholder="Enter a short description" th:field="*{description}" >
+  </div>
+  
+  <div class="form-group"> 
+   <input type="text" class="form-control border-nashi" id="keywords" placeholder="Enter keywords using which your post can be searched"  th:field="*{keywords}">
+ </div>
+ 
+ 
+ <br>
+   <div class="form-group"> 
+    <label>Select level which about which you want to create</label>
+    <select  id="level" class="form-control border-nashi"  >
+    <option  th:text="*{level}">Select level</option>
+   
+    <option>N5</option>
+    <option>N4</option>
+    <option>N3</option>
+    <option>N2</option>
+    <option>N1</option>
+    <option>N0</option>
+  </select>
+  </div>
+<div id="editor" class="form-group"> 
+</div>
+ 
+<div id="toolbar">
+</div>
+
+</Form>
+  
+<input type="submit" id="submit"  value="submit"> 
+<input type="submit" id="saveasdraft"  value="Save to drafts"> 
+ 
+</div>
+ 
+
+   
+<!-- The Modal -->
+   <div th:replace="fragments/header :: modalstructure">
+ </div>
+ 
+
+
+ <script type="text/javascript" th:src="@{/javascript/QuillContainer.js}"></script>
+
+ <script>
+/* // Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+} */
+ 
+ 
+ 
+ 
+var modal = document.getElementById("exampleModalCenter");
+
+//below is quill container
+
+
+/* $('#saveDelta').click(function()
+	{
+	  window.delta= quill.getContents();
+ 	  document.getElementById("datajso").value=  JSON.stringify(quill.getContents());
+		 
+	 
+ 	  console.log(delta);
+	}); */
+  
+  
+  // when coming from drafts to creating-mode datajso will be populated by the below
+  if(document.getElementById("datajso").value!="")
+  {
+  quill.setContents(JSON.parse(document.getElementById("datajso").value));
+  }
+  
+  
+  
+  //DOMSubtreeModified has been deprecated
+  // 
+/*   //this will save the changes made in #editor div on the spot
+   $('#editor').bind('DOMSubtreeModified'', function() { 
+	  window.delta= quill.getContents();
+ 	  document.getElementById("datajso").value=  JSON.stringify(quill.getContents());
+ 	  console.log("saved");
+	});
+ */
+ 
+ 
+ 
+ const targetNode = document.getElementById('editor');
+
+//Options for the observer (which mutations to observe)
+const config = { attributes: true, childList: true, subtree: true };
+
+//Callback function to execute when mutations are observed
+const callback = function(mutationsList, observer) {
+  // Use traditional 'for loops' for IE 11
+  for(let mutation of mutationsList) {
+/*       if (mutation.type === 'childList') {
+          console.log('A child node has been added or removed.');
+          
+          
+          
+      }
+      else if (mutation.type === 'attributes') {
+          console.log('The ' + mutation.attributeName + ' attribute was modified.');
+      } */
+      
+      
+	  window.delta= quill.getContents();
+ 	  document.getElementById("datajso").value=  JSON.stringify(quill.getContents());
+ 	 // console.log("saved");
+      
+  }
+};
+
+//Create an observer instance linked to the callback function
+const observer = new MutationObserver(callback);
+
+//Start observing the target node for configured mutations
+observer.observe(targetNode, config);
+ 
+ 
+ 
+ 
+   
+  
+ 
+ 
+ 
+  //this will set the value of cid, when the draft has cid, it will set cid , it will take cid from draft{id} method and pass it as model and here we retrieve the value of cid 
+  
+ 
+var x =document.getElementById("cid");
+  
+  if(x.value!="" && x.value != undefined)
+	  {
+		x.innerText=JSON.stringify([[${cid}]]);
+		alert("not empty")
+ 	  }
+  else
+	  {
+	  x.innerText=0;
+	  }
+  
+	  $("#submit").click(function(){
+		
+		if(JSON.stringify(quill.getContents().ops).length<4194303)
+	{ 	
+			var createcontent={};
+			createcontent["topic"] = $("#topic").val();
+			createcontent["data"] = $("#datajso").val();
+			createcontent["description"] = $("#description").val();
+			createcontent["keywords"] = $("#keywords").val();
+			createcontent["level"] = $("#level").val();	
+			createcontent["username"] = "himanshuchugh2@gmail.com";
+			createcontent["id"] = $("#id").text();	
+ 		
+			var ccIdWrapper = {};
+			ccIdWrapper["createContent"] = createcontent;
+			ccIdWrapper["cid"] = $("#cid").text();
+
+		alert(JSON.stringify(createcontent));
+ 		$.ajax({
+			type : "POST", 
+			contentType : "application/json; charset=UTF-8",
+ 			url : "creators/creating", 
+ 			data : JSON.stringify(ccIdWrapper),
+			dataType : 'json',	
+			success : function(data) {
+				// Code to display the response.
+			}
+		});
+ 		
+ 
+ 			    modal.style.display = "block";
+
+ 				document.getElementById("modalbody").innerText="Article submitted successfully, Thank you for your time and effort.";
+ 				document.getElementById("modalheader").innerText= "Information";
+
+ 				var span = document.getElementsByClassName("close")[0];
+
+ 			// When the user clicks on <span> (x), close the modal
+ 				span.onclick = function() {
+ 				  modal.style.display = "none";
+ 				}
+
+ 				// When the user clicks anywhere outside of the modal, close it
+ 				window.onclick = function(event) {
+ 				  if (event.target == modal) {
+ 				    modal.style.display = "none";
+ 				  }
+ 				}
+ 		
+ 		
+	}
+		else
+			{ 			
+			alert("Your post is too big to be submitted");
+			modal.style.display = "block";
+			document.getElementById("modalheader").backgroundColor= "#ff1515";
+			
+			
+				document.getElementById("modalbody").innerText="Article could not be submitted, The content can not be more than 3.5 MBs";
+			document.getElementById("modalheader").innerText= "Error";
+
+				var span = document.getElementsByClassName("close")[0];
+
+			// When the user clicks on <span> (x), close the modal
+				span.onclick = function() {
+				  modal.style.display = "none";
+				}
+
+				// When the user clicks anywhere outside of the modal, close it
+				window.onclick = function(event) {
+				  if (event.target == modal) {
+				    modal.style.display = "none";
+				  }
+				} 
+			}
+	});  
+		
+	
+	  $("#saveasdraft").click(function(){
+			
+			if(JSON.stringify(quill.getContents().ops).length<9999999)
+		{ 	
+ 			var draftcontent = {};
+			draftcontent["topic"] = $("#topic").val();
+			draftcontent["data"] = $("#datajso").val();
+			draftcontent["description"] = $("#description").val();
+			draftcontent["keywords"] = $("#keywords").val();
+			draftcontent["level"] = $("#level").val();
+			draftcontent["username"] = "himanshuchugh2@gmail.com";
+			draftcontent["id"] = $("#id").text();
+			alert($("#id").text());
+			
+			alert(JSON.stringify(draftcontent));
+	 		$.ajax({
+				type : "POST", 
+				contentType : "application/json; charset=UTF-8",
+	 			url : "creators/save_as_draft", 
+	 			data : JSON.stringify(draftcontent),
+				dataType : 'json',	
+				success : function(data) {
+					// Code to display the response.
+				}
+			});
+	 		
+	 
+	 			    modal.style.display = "block";
+
+	 				document.getElementById("modalbody").innerText="Draft submitted successfully, Thank you for your time and effort.";
+	 				document.getElementById("modalheader").innerText= "Information";
+
+	 				var span = document.getElementsByClassName("close")[0];
+
+	 			// When the user clicks on <span> (x), close the modal
+	 				span.onclick = function() {
+	 				  modal.style.display = "none";
+	 				}
+
+	 				// When the user clicks anywhere outside of the modal, close it
+	 				window.onclick = function(event) {
+	 				  if (event.target == modal) {
+	 				    modal.style.display = "none";
+	 				  }
+	 				}
+	 		
+	 		
+		}
+			else
+				{ 			
+				alert("Your post is too big to be submitted");
+				modal.style.display = "block";
+				document.getElementById("modalheader").backgroundColor= "#ff1515";
+				document.getElementById("modalbody").innerText="Draft could not be submitted, The content can not be more than 10 MBs";
+				document.getElementById("modalheader").innerText= "Error";
+
+				var span = document.getElementsByClassName("close")[0];
+
+				// When the user clicks on <span> (x), close the modal
+					span.onclick = function() {
+					  modal.style.display = "none";
+					}
+
+					// When the user clicks anywhere outside of the modal, close it
+					window.onclick = function(event) {
+					  if (event.target == modal) {
+					    modal.style.display = "none";
+					  }
+					} 
+				}
+		});  
+			
+
+	
+	
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	
+	  
+	  
+	  
+	  
+	  
+	  
+	
+	
+	
+  //alert("something happened");
+ /*  var stringifyit= function()
+  {
+	 
+	 
+	  
+	  try
+	  {
+	//  document.getElementById("datajso").value=  JSON.stringify(strdelta);
+	  alert("something happened");
+	  }
+	  catch(err)
+	  {
+		  console.log(err.message);
+		  alert("error");
+	  }
+	 // alert(document.getElementById("datajso").value);
+  } */
+  
+  
+/*  var  clicksubmit= function()
+  { 
+	  alert("button clicked")
+	  var vall= JSON.stringify(quill.getContents().ops[0].insert);
+  $.get("/creating", 
+		  function(vall) {
+ 	  
+	  alert("value to quill in jq is "+ vall);
+	  alert("value in quill.getContents() is "+ JSON.stringify(quill.getContents()));
+	  alert("value in datajso is "+ document.getElementById("datajso").value);
+		
+  });
+  
+  }
+  
+  $.get("/restricted", function(data) {
+
+  });
+ */
+  
+  
+  
+  
+  	
+ </script>
+</body>
+</html> 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
