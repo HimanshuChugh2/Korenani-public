@@ -23,6 +23,10 @@
 	
 <!-- https://mvnrepository.com/artifact/io.getquill/quill -->
 <dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			</dependency>
+<dependency>
     <groupId>io.getquill</groupId>
     <artifactId>quill_2.12</artifactId>
     <version>3.2.0</version>
