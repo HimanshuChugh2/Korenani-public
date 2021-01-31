@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+
+
+#typewriter {
+  border-right: solid 5px rgba(255,255,255,.75);
+  white-space: nowrap;
+  overflow: hidden;    
+  font-family: 'Source Code Pro', monospace;  
+  font-size: 28px;
+  color: black;
+  margin-left:10px;
+}
+
+/* Animation */
+#typewriter {
+  animation: animated-text 1s linear 1s 1 normal both,
+             animated-cursor 800ms linear infinite;
+}
+
+/* text animation */
+
+@keyframes animated-text{
+  from{width: 0;}
+  to{width: 320px;}
+}
+
+/* cursor animations */
+
+@keyframes animated-cursor{
+  from{border-right-color: black;}
+  to{border-right-color: transparent;}
+}
+
+
+
+ 

@@ -32,8 +32,7 @@ public class ShowContentController {
 		   
 		   
 		model.addAttribute("articleby",obj.getUsername());
-		System.out.println("U S E R N  A M E "+ obj.getUsername());
-		model.addAttribute("notconvertedJson", obj.getData());
+ 		model.addAttribute("notconvertedJson", obj.getData());
 		return "viewwritten";
 		
 	}

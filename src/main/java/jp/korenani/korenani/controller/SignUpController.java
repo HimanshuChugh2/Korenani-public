@@ -63,10 +63,8 @@ import jp.korenani.korenani.entities.SignUpUserDetails;
 			 * SignUpUserDetails objDetails=new SignUpUserDetails();
 			 * model.addAttribute("signUpUser",objDetails);
 			 */
-		  System.out.println("E R R O R I S -- "+errors.getAllErrors());
-		  model.addAttribute("validationerroroccoured","Error: Validation error, please try again with valid inputs");
-		  System.out.println("in E R R O R"); 
-		  return "login";
+ 		  model.addAttribute("validationerroroccoured","Error: Validation error, please try again with valid inputs");
+ 		  return "login";
 	  }
 	  
 	  
@@ -74,8 +72,7 @@ import jp.korenani.korenani.entities.SignUpUserDetails;
 	  jpaSignUpRepository.findByUsername(signUpUser.getUsername());
  	  	if (signUpObj.isPresent())
 	  		{
- 	  		System.out.println(" U S E R N A M E ALREADY E X I S T S");
-		    model.addAttribute("message", "The e-mail: " +
+ 		    model.addAttribute("message", "The e-mail: " +
 		    signUpUser.getUsername() + " already exists, try with some other e-mail address");
  	  		return "login";		  
 		  }
@@ -90,12 +87,12 @@ import jp.korenani.korenani.entities.SignUpUserDetails;
 	  		if(reCaptchaResponse.isSuccess())
 	  		{
 	  			String userProfileName=signUpUser.getUsername().substring(0,signUpUser.getUsername().indexOf("@"));
-	  			System.out.println("CREATED USERPROFILE NAME IS "+userProfileName);
-	  			 signUpUser.setUserProfileName(userProfileName);
+ 	  			 signUpUser.setUserProfileName(userProfileName);
 	  			 jpaSignUpRepository.save(signUpUser); 
 	 			 //model.addAttribute("user_profile_name",signUpUser.getUserProfileName());
-	  			  model.put("message", "User added successfully " + signUpUser.getUserProfileName()); 		
-	  			  return "accessible";
+	  			  model.put("SignUpSuccessMessage", "User added successfully " + signUpUser.getUserProfileName()+ ". Please proceed with Sign in "); 		
+	  			
+	  			  return "login";
 			} 
 	  		else
 			 {

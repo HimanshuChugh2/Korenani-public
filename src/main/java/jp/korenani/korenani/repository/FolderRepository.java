@@ -31,10 +31,20 @@ public interface FolderRepository extends JpaRepository<CreatedFolder, Integer> 
 	@Query(value="delete from korenani.created_folder where contentid in :array", nativeQuery = true)
 	public void deleteExistingContentByArray(@Param("array") Integer[] array);
 	
-	@Transactional
-	@Modifying
-	@Query(value="insert into korenani.created_folder (contentid,foldername,username) values(:contentid, :foldername , :username)",nativeQuery = true)
-	public void insertNewContentidInFolder(@Param("contentid") int contentid, @Param("foldername") String foldername, @Param("username") String username );
+	
+	
+	/*
+	 * @Transactional
+	 * 
+	 * @Modifying
+	 * 
+	 * @Query(
+	 * value="insert into korenani.created_folder (contentid,foldername,username) values(:contentid, :foldername , :username)"
+	 * ,nativeQuery = true) public void
+	 * insertNewContentidInFolder(@Param("contentid") int
+	 * contentid, @Param("foldername") String foldername, @Param("username") String
+	 * username );
+	 */
 	
 	// now i am getting the content id associated with respective folder, need to get the data from cc table with multiple contentid which is equal to id of cc
  

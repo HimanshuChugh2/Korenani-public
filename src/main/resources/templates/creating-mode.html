@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>Demo</title>
+    <title>Creating..</title>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width"/>
     <base href="/"/>
@@ -12,6 +12,8 @@
  
 
 <link href="/mystylesheet.css" th:href="@{css/modalpopup.css}"  rel="stylesheet"  type="text/css">
+    <link href="/mycss.css" th:href="@{css/typewriter-effect.css}"  rel="stylesheet"  type="text/css"/>
+
  	
   
 <head th:replace="fragments/header :: headHeader">   
@@ -28,19 +30,18 @@
 <!-- th:action="@{/creators/creating}" -->
 <!-- <form    method="post">
  -->
-<div class="container">
+<div class="container" style="max-width:800px;">
  
- 
+<p id="typewriter">You are Creating...</p>
+
 
 <Form th:object="${createContent}">
 
-id
-<span th:field="*{id}" th:text="*{id}" id="id"> id </span>
-<hr>
-cid
-<span id="cid" > 0</span>
-<hr>
-<span th:if="${DraftAlreadyExists}">
+ 
+<span style="display:none" th:field="*{id}" th:text="*{id}" id="id"> id </span>
+  
+<span style="display:none" id="cid" > 0</span>
+ <span th:if="${DraftAlreadyExists}">
 <span th:text="${DraftAlreadyExists}">
 
 </span>
@@ -49,7 +50,7 @@ cid
 </span>
 
 <div class="form-group"> 
-  <input  class="form-control border-nashi"   type="text" id="topic" placeholder="Enter title" th:field="*{topic}" >
+  <input required class="form-control border-nashi"   type="text" id="topic" placeholder="Enter title" th:field="*{topic}" >
  </div>
  
  <div class="form-group">
@@ -57,7 +58,7 @@ cid
     </div>
   
   <div class="form-group"> 
-   <input type="text" class="form-control border-nashi" id="description" placeholder="Enter a short description" th:field="*{description}" >
+   <input required type="text" class="form-control border-nashi" id="description" placeholder="Enter a short description" th:field="*{description}" >
   </div>
   
   <div class="form-group"> 
@@ -67,8 +68,8 @@ cid
  
  <br>
    <div class="form-group"> 
-    <label>Select level which about which you want to create</label>
-    <select  id="level" class="form-control border-nashi"  >
+    <label>&nbsp;&nbsp;&nbsp;Select Language level</label>
+    <select  id="level" class="form-control"  >
     <option  th:text="*{level}">Select level</option>
    
     <option>N5</option>
@@ -79,17 +80,21 @@ cid
     <option>N0</option>
   </select>
   </div>
-<div id="editor" class="form-group"> 
+<div id="editor" class="form-group" style="min-height:300px; border:0"> 
 </div>
  
 <div id="toolbar">
 </div>
 
 </Form>
-  
-<input type="submit" id="submit"  value="submit"> 
-<input type="submit" id="saveasdraft"  value="Save to drafts"> 
- 
+   <div class="form-row">
+  <div class="form-group m-2">
+<input class="btn btn-primary form-control " type="submit" id="submit"  value="Submit" data-toggle="modal" data-target="#exampleModalCenter">
+</div> 
+  <div class="form-group m-2">
+<input class="btn btn-primary form-control"  type="submit" id="saveasdraft"  value="Save as draft" data-toggle="modal" data-target="#exampleModalCenter">
+</div> 
+ </div>
 </div>
  
 
@@ -216,7 +221,7 @@ var x =document.getElementById("cid");
   if(x.value!="" && x.value != undefined)
 	  {
 		x.innerText=JSON.stringify([[${cid}]]);
-		alert("not empty")
+		/* alert("not empty") */
  	  }
   else
 	  {
@@ -225,22 +230,49 @@ var x =document.getElementById("cid");
   
 	  $("#submit").click(function(){
 		
+		  if(document.getElementById("topic").innerText== "" &&  document.getElementById("topic").value=="")
+			  {
+ 			  
+			    modal.style.display = "block";
+ 				document.getElementById("modalbody").innerText="Please enter a title";
+ 				document.getElementById("modalheader").innerText= "Error";
+
+ 				var span = document.getElementsByClassName("close")[0];
+
+ 			// When the user clicks on <span> (x), close the modal
+ 				span.onclick = function() {
+ 				  modal.style.display = "none";
+  				}
+
+ 				// When the user clicks anywhere outside of the modal, close it
+ 				window.onclick = function(event) {
+ 				  if (event.target == modal) {
+ 				    modal.style.display = "none";
+ 
+ 					location.reload();
+ 				  }
+ 				}
+			  }
+		  
+		  else
+			  {
+		  
 		if(JSON.stringify(quill.getContents().ops).length<4194303)
-	{ 	
+		{ 	
 			var createcontent={};
 			createcontent["topic"] = $("#topic").val();
-			createcontent["data"] = $("#datajso").val();
+			createcontent["data"] = JSON.stringify(quill.getContents());
 			createcontent["description"] = $("#description").val();
 			createcontent["keywords"] = $("#keywords").val();
 			createcontent["level"] = $("#level").val();	
-			createcontent["username"] = "himanshuchugh2@gmail.com";
+			createcontent["username"] = localStorage.getItem("userprofilename");
 			createcontent["id"] = $("#id").text();	
  		
 			var ccIdWrapper = {};
 			ccIdWrapper["createContent"] = createcontent;
 			ccIdWrapper["cid"] = $("#cid").text();
 
-		alert(JSON.stringify(createcontent));
+		/* alert(JSON.stringify(createcontent)); */
  		$.ajax({
 			type : "POST", 
 			contentType : "application/json; charset=UTF-8",
@@ -249,10 +281,12 @@ var x =document.getElementById("cid");
 			dataType : 'json',	
 			success : function(data) {
 				// Code to display the response.
+				
 			}
 		});
- 		
- 
+/* 		alert("Submitted Successfully")
+ */
+  
  			    modal.style.display = "block";
 
  				document.getElementById("modalbody").innerText="Article submitted successfully, Thank you for your time and effort.";
@@ -263,16 +297,19 @@ var x =document.getElementById("cid");
  			// When the user clicks on <span> (x), close the modal
  				span.onclick = function() {
  				  modal.style.display = "none";
- 				}
+  				}
 
  				// When the user clicks anywhere outside of the modal, close it
  				window.onclick = function(event) {
  				  if (event.target == modal) {
  				    modal.style.display = "none";
+ 
+ 					location.reload();
  				  }
  				}
  		
- 		
+ 			
+
 	}
 		else
 			{ 			
@@ -289,15 +326,18 @@ var x =document.getElementById("cid");
 			// When the user clicks on <span> (x), close the modal
 				span.onclick = function() {
 				  modal.style.display = "none";
+ 
 				}
 
 				// When the user clicks anywhere outside of the modal, close it
 				window.onclick = function(event) {
 				  if (event.target == modal) {
 				    modal.style.display = "none";
+ 
 				  }
 				} 
 			}
+			  }
 	});  
 		
 	
@@ -307,15 +347,15 @@ var x =document.getElementById("cid");
 		{ 	
  			var draftcontent = {};
 			draftcontent["topic"] = $("#topic").val();
-			draftcontent["data"] = $("#datajso").val();
+			draftcontent["data"] = JSON.stringify(quill.getContents());
 			draftcontent["description"] = $("#description").val();
 			draftcontent["keywords"] = $("#keywords").val();
 			draftcontent["level"] = $("#level").val();
-			draftcontent["username"] = "himanshuchugh2@gmail.com";
+			draftcontent["username"] = localStorage.getItem("userprofilename");
 			draftcontent["id"] = $("#id").text();
-			alert($("#id").text());
+			/* alert($("#id").text()); */
 			
-			alert(JSON.stringify(draftcontent));
+			/* alert(JSON.stringify(draftcontent)); */
 	 		$.ajax({
 				type : "POST", 
 				contentType : "application/json; charset=UTF-8",
@@ -324,6 +364,7 @@ var x =document.getElementById("cid");
 				dataType : 'json',	
 				success : function(data) {
 					// Code to display the response.
+					alert("Saved to Drafts Successfully")
 				}
 			});
 	 		
@@ -338,12 +379,15 @@ var x =document.getElementById("cid");
 	 			// When the user clicks on <span> (x), close the modal
 	 				span.onclick = function() {
 	 				  modal.style.display = "none";
+ 
 	 				}
 
 	 				// When the user clicks anywhere outside of the modal, close it
 	 				window.onclick = function(event) {
 	 				  if (event.target == modal) {
 	 				    modal.style.display = "none";
+		 				location.reload();
+
 	 				  }
 	 				}
 	 		
@@ -415,16 +459,19 @@ var x =document.getElementById("cid");
   } */
   
   
-/*  var  clicksubmit= function()
+/*  
+ * 
+ */
+ var  clicksubmit= function()
   { 
-	  alert("button clicked")
+	/*   alert("button clicked") */
 	  var vall= JSON.stringify(quill.getContents().ops[0].insert);
   $.get("/creating", 
 		  function(vall) {
  	  
-	  alert("value to quill in jq is "+ vall);
+	  /* alert("value to quill in jq is "+ vall);
 	  alert("value in quill.getContents() is "+ JSON.stringify(quill.getContents()));
-	  alert("value in datajso is "+ document.getElementById("datajso").value);
+	  alert("value in datajso is "+ document.getElementById("datajso").value);   */
 		
   });
   
@@ -433,8 +480,7 @@ var x =document.getElementById("cid");
   $.get("/restricted", function(data) {
 
   });
- */
-  
+   
   
   
   

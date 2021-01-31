@@ -112,63 +112,6 @@ public class LoginController {
 
 		SignUpUserDetails objDetails=new SignUpUserDetails();
 	    model.addAttribute("signUpUser",objDetails);
-//	    System.out.println("before session");
-//	    if(email.equals(""))
-//	    {
-//	    	model.addAttribute("alreadyloggedin",null);
-//	    	System.out.println(" i  t  s n  u  l  l");
-//	    }
-//  	    //System.out.println(" L O G G ED I N U S E R D E T A I L S "+getLoggedInUserName());
-//	    //System.out.println(" L O G G ED I N U S E R D E T A I L S "+email);
-//	    System.out.println(getLoggedInUserName());
-//	    System.out.println("-----------");
-////	    if(principal.getAttribute("email")==null)
-////	    {
-////	    	System.out.println("----social is null----");
-////	    }
-//	   // System.out.println(" " +principal.getAttribute("email"));
-//	    //if logged in with fb, getloggedinusername will be equals to::-> Name: [3342133392466160], Granted Authorities: [[ROLE_USER, SCOPE_email, SCOPE_public_profile]], User Attributes: [{id=3342133392466160, name=Himanshu Chügh, email=himanshuchugh2@gmail.com}], 
-//	    // if it is loggedin with google the data will be bigger
-//	    // if social is not used then principal.getAttribute("email") will be null
-//	    // so we check here if principal.getAttribute("email") is null then we will set alreadyloggedin as getloggedinusername(); 
-//	    
-//	    
-//	    try {
-//	    	if(!principal.getAttribute("email").equals(null))
-//		    {
-//		    	System.out.println("  S O C I A L");
-//	    		model.addAttribute("alreadyloggedin","You are logged in as "+principal.getAttribute("email"));
-//		    }
-//	    	
-// 
-//			
-//		} catch (NullPointerException nullPointer) {
-//			
-//			if(!getLoggedInUserName().equals("anonymousUser"))
-//			    {
-//	    	System.out.println("  N O T  S O C I A L  CA TC H E D");
-//	    	model.addAttribute("alreadyloggedin","You are logged in as "+getLoggedInUserName());
-//			    }
-//			// TODO: handle exception
-//		}
-	    
-	    
-	    
-	    
-//	    if(!getLoggedInUserName().equals("anonymousUser"))
-//	    {
-//	    	if(getLoggedInUserName().contains("SCOPE_https://www.googleapis.com/auth") ||getLoggedInUserName().contains("https://accounts.google.com"))
-//	    			{
-//	    		model.addAttribute("alreadyloggedin","You are logged in as "+principal.getAttribute("email"));
-//		    	System.out.println("in in in in  in  in in");
-//	    			}
-//		    else 
-//		    {
-//		    	model.addAttribute("alreadyloggedin","You are logged in as "+getLoggedInUserName());
-//			}
-//		    
-//	    }
-
 
 	    
 		return "login";
@@ -186,13 +129,11 @@ public class LoginController {
 		
 		/*if(principal!=null) 
 		{*/
-		System.out.println("  I  N  U  S  E  R ");
-		email = principal.getAttribute("email");
+ 		email = principal.getAttribute("email");
 		name = principal.getAttribute("name");
 		
  
-		System.out.println("E M  A I L  ID IS:   ");
-		System.out.println(email);
+ 
 		//System.out.println("N  a m e  IS:   " + name);
 		//Collections.singletonMap("name", principal.toString());
 		/*
@@ -240,27 +181,22 @@ public class LoginController {
 	@PostMapping(path="/loginsessionsave", consumes = "application/json")
 	public ResponseEntity<String> postLoginForRetainingSessionValue(@RequestBody String username ,Model model)
 	{
-		System.out.println("requestbody "+username);
-		
+ 		
 		Optional<String> valOptional=signUpRepo.getUserProfileNameByUsername(username);
-		System.out.println(" R E  S U L T "+signUpRepo.getUserProfileNameByUsername(username));
-		//not able to populate this model
+ 		//not able to populate this model
 		model.addAttribute("userprofilename",valOptional.get());
 		model.addAttribute("userprofilename","Hello");
 
-		System.out.println("MODEL userprofilename "+ model.getAttribute("userprofilename"));
-		return new ResponseEntity<>("result successful result", 
+ 		return new ResponseEntity<>("result successful result", 
 				   HttpStatus.OK);
 	}
 	@GetMapping("/restricted")
 	public String restricted(Model model,@AuthenticationPrincipal OAuth2User principal)
 	{ 		
-		System.out.println("E M A I L I S "+email + "\r\n "+"");
- 		Optional<String> user_profile_name = SignUpjpaRepository.getUserProfileNameByUsername(getLoggedInUserName());
+  		Optional<String> user_profile_name = SignUpjpaRepository.getUserProfileNameByUsername(getLoggedInUserName());
 		model.addAttribute("user_profile_name",user_profile_name.get());
-		System.out.println("user_profile_name "+user_profile_name.get());
-		System.out.println("		return \"restricted\";\r\n" + 
-				"");
+	 
+ 
 		return "restricted";
 	}
 }

@@ -1,0 +1,53 @@
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">  
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Demo</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <base href="/"/>
+    
+<head th:replace="fragments/header :: headHeader">
+
+  
+</head>
+<body>
+   <div th:replace="fragments/header :: CreatorsNavbar">
+</div>
+
+
+<div>
+<input type="text" placeholder="Folder name" id="foldername">
+<input type="submit" value="Create folder" id="submit">
+</div>
+
+<script>
+
+$("#submit").click(function(){
+	
+ 	
+		var createdFolder={};
+		createdFolder["foldername"] = $("#foldername").val();
+		//createdFolder["data"] = $("#datajso").val();
+	 
+	alert(JSON.stringify(createdFolder));
+		$.ajax({
+		type : "POST", 
+		contentType : "application/json; charset=UTF-8",
+		url : "creators/create-folder", 
+		data : JSON.stringify(createdFolder),
+		dataType : 'json',	
+		success : function(data) {
+			// Code to display the response.
+			alert("folder created")
+		}
+		 
+		})
+ 
+	});
+
+</script>
+</body>
+</html>

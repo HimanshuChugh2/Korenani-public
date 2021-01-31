@@ -1,14 +1,10 @@
 package jp.korenani.korenani.repository;
-
 import java.util.List;
-
 import javax.transaction.Transactional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import jp.korenani.korenani.entities.AnswerClapCountAndAidWrapper;
 import jp.korenani.korenani.entities.AnswerDatetimeAndAidWrapperInterface;
 import jp.korenani.korenani.entities.ClapsOfAnswer;

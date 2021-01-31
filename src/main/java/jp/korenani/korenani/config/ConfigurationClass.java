@@ -63,15 +63,16 @@ import jp.korenani.korenani.repository.JPASignUpRepository;
 	        
 	        .logout(l -> l
 	                .logoutSuccessUrl("/").permitAll()
-	            )
+	             )
             .authorizeRequests(a -> a
-                .antMatchers("/", "/error", "/webjars/**","/signup","/user","/index","/accessible","/enter-existing-password","/creators/**","/showit").permitAll()
+                .antMatchers("/", "/error", "/webjars/**","/error-pages/**","/signup","/user", "/accessible","/enter-existing-password","/showit","/css/style.css","/index").permitAll()
                 .anyRequest().authenticated()
             )
-            .exceptionHandling(e -> e
-                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) 
-            )
-				.formLogin().defaultSuccessUrl("/restricted")
+				/*
+				 * .exceptionHandling(e -> e .authenticationEntryPoint(new
+				 * HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) )
+				 */ 
+				.formLogin().defaultSuccessUrl("/restricted").loginPage("/login")
 				 .and().oauth2Login().
 				 defaultSuccessUrl("/enter-password", true).loginPage("/login")
 				 .permitAll()
@@ -103,7 +104,7 @@ import jp.korenani.korenani.repository.JPASignUpRepository;
 	public void configure(WebSecurity web) throws Exception {
 	    web
 	            .ignoring()
-	            .antMatchers("/resources/**", "/static/**", "/css/**", "/javascript/**", "/images/**", "/icon/**,/upload/**,/anyfolder/**,/javascript/QuillContainer.js,/path/to/font-awesome/**");
+	            .antMatchers("/resources/**", "/static/**", "/css/style.css", "/javascript/**", "/images/**","/js/**","/scss/**", "/sketch/**", "/vendors/**","/css/**","/fonts/**","/images/**","/icon/**,/upload/**,/anyfolder/**,/javascript/QuillContainer.js,/path/to/font-awesome/**");
 	}
 	
 	/*

@@ -1,0 +1,138 @@
+	<!doctype html>
+	<html lang="en" xmlns:th="http://www.thymeleaf.org">  
+	<head>
+	    <meta charset="utf-8"/>
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	    <title>Demo</title>
+	    <meta name="description" content=""/>
+	    <meta name="viewport" content="width=device-width"/>
+	    <base href="/"/>
+	    
+ 
+	<link href="/mystylesheet.css" th:href="@{css/modalpopup.css}"  rel="stylesheet"  type="text/css">
+	 	<link href="/mystylesheet.css" th:href="@{css/imagediting.css}"  rel="stylesheet"  type="text/css">
+	  
+	<head th:replace="fragments/header :: headHeader">
+	</head>
+	
+	<body>
+	   <div th:replace="fragments/header :: navForViewer">
+	</div>
+	<div class="container" th:object="${user}">
+	
+	<div class="form-group row">
+	 <label for="username" class="col"> Username</label>
+	 <input type="text"  id="username" class="border-nashi col" th:field="*{userProfileName}" readonly>
+	 <a class="far fa-edit col" id="edituserprofilename"></a> 
+	 </div>
+	 
+	 	<div class="form-group row" >
+	 
+	   	<label for="name" class="col">Name</label>   
+	   	 <input type="text"  placeholder="Set your Name"  id="name_of_user" class="border-nashi col" readonly th:field="*{name}" >
+	   	 <a class="far fa-edit col" id="editname"></a> 
+	   	</div>
+	   	
+	   		<div class="form-group row"> 
+	   		 
+	   		<label for="email" class="col">Email</label>   
+	   		 <span  id="email" th:field="*{username}" th:text="*{username}" class="col" ></span> 
+	   	   <input type="text"   id="emailverified" th:field="*{emailverified}" style="display:none">  	   
+	   	   <span id="emailerifiedcheckornot" title="Email verified" class="col"> </span>
+	   	    
+ 	   	   </div>   	  
+	   	   
+
+	   	   
+  	   
+	</div>
+	
+	
+	<script>
+	
+	var emailerified= document.getElementById("emailverified");
+	console.log(emailerified.value);
+	if(emailerified.value=="true")
+		{
+		
+		console.log("its true");
+		var emailerifiedcheckornot= document.getElementById("emailerifiedcheckornot"); 			
+		emailerifiedcheckornot.classList.add("fas", "fa-check-circle");
+		
+		emailerifiedcheckornot.style.color="blue";
+ 
+		}
+	</script>
+	
+	<script>
+	 $("#edituserprofilename").click(function(){
+ 
+		var username=document.getElementById("username");
+		username.readOnly=false;
+		username.focus();
+		console.log("username readonly false")
+ 	});
+	
+		var edituserprofilename=document.getElementById("edituserprofilename");
+		edituserprofilename.onmouseover= function()
+		{
+ 			edituserprofilename.style.color="blue";
+ 			username.style.border="4";
+ 			edituserprofilename.title="Edit Username";
+ 			username.style.borderColor="black"
+
+ 		
+		}
+	 
+		edituserprofilename.onmouseout= function()
+		{
+ 			edituserprofilename.style.color="";
+ 			username.style.borderColor=""
+
+		}
+	
+	
+	</script>
+	
+	
+	
+		<script>
+	 $("#editname").click(function(){
+ 
+		var name_of_user=document.getElementById("name_of_user");
+		name_of_user.readOnly=false;
+		console.log("username readonly false")
+		name_of_user.focus();
+		name_of_user.style.borderColor="#f2b1ea"
+
+ 	});
+	
+		var editname=document.getElementById("editname");
+		editname.onmouseover= function()
+		{
+			editname.style.color="blue";
+ 			editname.title="Edit name";
+ 			name_of_user.style.borderColor="black"
+
+		}
+	 
+		editname.onmouseout= function()
+		{
+			editname.style.color="";
+			name_of_user.style.borderColor=""
+
+		}
+	
+	
+	</script>
+	
+	 
+	
+	
+	
+	
+	
+	
+	
+	</body>
+	</html>																																

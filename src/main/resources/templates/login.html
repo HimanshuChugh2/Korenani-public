@@ -5,13 +5,14 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>Demo</title>
+    <title>Login to Korenani。</title>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width"/>
     <base href="/"/>
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    
+
   	<head th:replace="fragments/header :: headHeader">
+
 
 
 
@@ -26,11 +27,13 @@
 
  
 
-	<div class="container unauthenticated border signincontainer shadow-lg">
+	<div>
+	 <br>
+			<div class="signincontainer border shadow-lg">  
 	
 	<div class="socialsignincontents">
 	<h2>
- 	Welcome to korenani
+ 	Welcome to Korenani。
 	</h2>
 	<hr/>
 	</div>
@@ -39,7 +42,7 @@
 		<span id="alreadyloggedin"></span>
 	
 		</div>
-			 <hr/>
+			
 		</div>
 		 
 		  <div th:if="${profileNameAlreadyExists}">
@@ -78,7 +81,16 @@
 	<span th:text="${message}"></span>
 		
 	</div>
+
+	
 	 <hr/>
+	</div>
+		<div th:if="${SignUpSuccessMessage}">
+	
+		 <div class="alert alert-primary"> 
+	      <h4 class="alert-heading">Success </h4>
+	<span th:text="${SignUpSuccessMessage}"></span>
+		</div>
 	</div>
 	
  <ul class="nav nav-tabs justify-content-center" style="color:red" id="myTab" role="tablist">
@@ -93,10 +105,10 @@
   <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
   
   
-  <form   action="#"	th:action="@{/login}" method="post" >
+  <form action="#" th:action="@{/login}" method="post" >
   
   <div> 
-   <h2 style="text-align:center">Login here</h2>
+    <h2 style="text-align:center" class="p-2">Sign in here</h2>
    
    	<div  th:if="${param.logout}" class="alert alert-success">
 	You have been logged out from the session
@@ -124,7 +136,12 @@
         <label for="remember-me"> Keep me signed in</label><br>
       
       </div>
-    <input type="submit"  value="Login"  class="btn btn-warning" onclick="loginclicked()" id="login"/>
+   
+      <i class="fas fa-sign-in-alt"></i>
+
+      
+    <input type="submit"  value="Login" class="btn btn-warning"   onclick="loginclicked()" id="login">
+ 
     
     
     
@@ -226,7 +243,7 @@
 <!--        <button onclick="logout()" class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button> -->
  
   <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
-  <h2 style="text-align:center">
+  <h2 style="text-align:center" class="p-2">
  Sign up here
   </h2>
  
@@ -257,10 +274,10 @@
   <br>
      <div class="form-group">
   
-        <div class="g-recaptcha form-group" data-sitekey="6Ldn0LIZAAAAANc4U9iZnTvmh1NxsKpXmWZcg3KC"></div>
+        <div class="g-recaptcha form-group" data-sitekey="6Ldn0LIZAAAAANc4U9iZnTvmh1NxsKpXmWZcg3KC" style="width:10px;"></div>
         </div>
   <br>
-   <input type="submit" value="Submit" class="btn btn-success">
+   <input type="submit" value="Submit" class="btn btn-warning">
       
   	
    </div>
@@ -278,7 +295,7 @@
 <hr/>
  <div style="text-align:center">
  
- Or login with
+ Or login with SNS (no need to sign-up) !
  </div>
  
  
@@ -294,13 +311,13 @@
  
   <span>
   <a href="/oauth2/authorization/google">
-  <span class="fab fa-google fa-3x signinicons"></span>
+  <span class="fab fa-google fa-3x signinicons" id="signinGoogleIcon"></span>
    </a>
   </span>
   	
   <span>
   <a href="/oauth2/authorization/facebook">
-  <span class="fab fa-facebook fa-3x signinicons"></span>
+  <span class="fab fa-facebook fa-3x signinicons" id="signinFbIcon"></span>
   </a>
   </span>
   
@@ -310,7 +327,10 @@
   </a>
   </span> -->
   </div>  
- 
+ </div>
+ <br>
+  <div id="footer" th:replace="fragments/header :: footerBlack">
+   </div>
 </div>
 
 
@@ -379,14 +399,14 @@
           } */
           
           
-          function loginclicked()
+/*           function loginclicked()
           {
         	  alert("login clicked")
-          }
+          } */
           
           $("#login").click(function(){
        		var username=document.getElementById("username").value;
-       		 alert(username);
+       		// alert(username);
           		/* alert(JSON.stringify(questionResponse)); */
        		$.ajax({
        		type : "POST", 
@@ -396,10 +416,10 @@
        		dataType : 'json',	
        		success : function( ) {
        			// Code to display the response.
-       			alert("in success");
+       			//alert("in success");
         		}
        		});
-   			console.log("ajax function ends")
+   			//console.log("ajax function ends")
 
        		});
         </script>

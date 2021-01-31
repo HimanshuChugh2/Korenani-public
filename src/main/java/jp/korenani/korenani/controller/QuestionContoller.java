@@ -69,12 +69,10 @@ public class QuestionContoller {
 //			email=getLoggedInUserName();
 //			}
 
- 		   System.out.println("D A T E "+question.getDate());
-		
+ 		
 		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		   LocalDateTime now = LocalDateTime.now();
-		   System.out.println(dtf.format(now));
-		   question.setDate(dtf.format(now));
+ 		   question.setDate(dtf.format(now));
 		   
    		   
 		  // System.out.println("String email is   "+email);

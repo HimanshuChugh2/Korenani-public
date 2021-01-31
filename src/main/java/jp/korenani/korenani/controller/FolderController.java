@@ -9,6 +9,10 @@ import javax.sound.midi.Soundbank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +33,15 @@ import scala.inline;
 @RequestMapping("/creators")
 public class FolderController {
 
+	private String getLoggedInUserName() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		
+		  if (principal instanceof UserDetails) return ((UserDetails)
+		  principal).getUsername();
+		 
+		return principal.toString(); 
+	}
+	
 	@Autowired
 	FolderRepository folderRepo;
 	
@@ -43,16 +56,41 @@ public class FolderController {
 	}
 	
 	@GetMapping("folders")
-	public String allFoldersGet(Model model)
+	public String allFoldersGet(Model model , @AuthenticationPrincipal OAuth2User principal)
 	{
-	    List<Object[]> createdFolders=  folderRepo.getAllFoldersByUsername("himanshuchugh2@gmail.com");
-	    
+		
+		String email="";
+ 
+		if(principal!=null)
+		{
+ 		email=principal.getAttribute("email").toString();
+		}
+		else if(getLoggedInUserName()!=null)
+		{
+ 			email=getLoggedInUserName();
+  		}
+		
+		
+		
+		
+		
+		
+	    List<Object[]> createdFolders=  folderRepo.getAllFoldersByUsername(email);
+	    //System.out.println("---createdFolders.get(0))--- "+createdFolders.get(0));
 	    model.addAttribute("folderdata",createdFolders);
-	    Object[] x=createdFolders.get(0); 
-	    //System.out.println("F O L D E R N A M E I S "+x[0]);
 	    
+	    if(createdFolders.size()==0)
+	    {
+			model.addAttribute("folderMessage","You have not created any folder. Click here to create a folder !");
+
+	    //System.out.println("F O L D E R N A M E I S "+x[0]);
+	    }	
+	    else {
+  		    model.addAttribute("folderMessage", createdFolders.size()+" folders found.");
+
+		}
 	    // will show all the articles by user in alphabetical and old-to-new order and from there user will have option of moving articles to a folder
-	    List<Object[]> contentList= createContentRepo.getTopicAndIdByUsername("himanshuchugh2@gmail.com");
+	    List<Object[]> contentList= createContentRepo.getTopicAndIdByUsername(email);
 		model.addAttribute("allContentByUser",contentList);
 	    return "folders";
 	}
@@ -60,11 +98,20 @@ public class FolderController {
 	
 	@PostMapping(path = "/folders",consumes = "application/json")
  	@ResponseStatus(HttpStatus.OK)
-  public ResponseEntity<String> MoveFolder(@RequestBody FolderMoveHelper folderMoveHelper, Model model) throws IOException
+  public ResponseEntity<String> MoveFolder(@RequestBody FolderMoveHelper folderMoveHelper, Model model, @AuthenticationPrincipal OAuth2User principal) throws IOException
   	{
+		String email="";
+ 
+		if(principal!=null)
+		{
+ 		email=principal.getAttribute("email").toString();
+		}
+		else if(getLoggedInUserName()!=null)
+		{
+ 			email=getLoggedInUserName();
+  		}
 		 
-		System.out.println("fn "+folderMoveHelper.getFoldername());
-		System.out.println(folderMoveHelper.getIdsArray());
+		 
 		
 		
 		//idsarray contains ids of article which should be moved to foldername Folder
@@ -76,9 +123,19 @@ public class FolderController {
 		
 		for(int i=0;i<folderMoveHelper.getIdsArray().length;i++)
 		{
-			System.out.println("inserting "+folderMoveHelper.getIdsArray()[i]);
-			folderRepo.insertNewContentidInFolder(folderMoveHelper.getIdsArray()[i], folderMoveHelper.getFoldername(), "himanshuchugh2@gmail.com");
+ 			CreatedFolder createdFolder= new CreatedFolder();
+			createdFolder.setContentid(folderMoveHelper.getIdsArray()[i]);
+			createdFolder.setFoldername(folderMoveHelper.getFoldername());
+			createdFolder.setUsername(email);
+			folderRepo.save(createdFolder);
+		
 			
+			
+			// i was using this before but it started throwing error "Field 'id' doesn't have a default value at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException", so i tried to save it using "save" which i thought would work the same.
+			/*
+			 * folderRepo.insertNewContentidInFolder(folderMoveHelper.getIdsArray()[i],
+			 * folderMoveHelper.getFoldername(), email);
+			 */			
 		}
 		
 		return new ResponseEntity<>("result successful result", 
@@ -87,10 +144,20 @@ public class FolderController {
 	
  	@PostMapping(path = "/create-folder",consumes = "application/json")
  	@ResponseStatus(HttpStatus.OK)
-  	public ResponseEntity<String> create_folder_post(@RequestBody CreatedFolder createdFolder, Model model) throws IOException
+  	public ResponseEntity<String> create_folder_post(@RequestBody CreatedFolder createdFolder, Model model, @AuthenticationPrincipal OAuth2User principal) throws IOException
   	{
  		
- 		createdFolder.setUsername("himanshuchugh2@gmail.com");
+ 		String email="";
+ 
+		if(principal!=null)
+		{
+ 		email=principal.getAttribute("email").toString();
+		}
+		else if(getLoggedInUserName()!=null)
+		{
+ 			email=getLoggedInUserName();
+  		}
+ 		createdFolder.setUsername(email);
  		folderRepo.save(createdFolder);
  		return new ResponseEntity<>("result successful result", 
 				   HttpStatus.OK);	
@@ -98,27 +165,35 @@ public class FolderController {
  	
  	@GetMapping("/folders/{foldername}")
  	@ResponseStatus(HttpStatus.OK)
- 	public  String showFoldersById(@PathVariable("foldername") String foldername, Model model)
+ 	public  String showFoldersById(@PathVariable("foldername") String foldername, Model model, @AuthenticationPrincipal OAuth2User principal)
  	{
+ 		String email="";
+ 
+		if(principal!=null)
+		{
+ 		email=principal.getAttribute("email").toString();
+		}
+		else if(getLoggedInUserName()!=null)
+		{
+ 			email=getLoggedInUserName();
+  		}
+ 		
  		
  		// get the content which is put in this "foldername" and show it to user 
- 		List<Integer> contentidslist= folderRepo.getContentIdByFoldername(foldername,"himanshuchugh2@gmail.com");
+ 		List<Integer> contentidslist= folderRepo.getContentIdByFoldername(foldername,email);
  		
- 		System.out.println(" C O N T E N T I D "+contentidslist);
- 		
+  		
  		//will show the content registered with contentidslist  to user
  		List<Object[]> dataList= createContentRepo.getTopicById(contentidslist);
  		
  		
- 		if(dataList.isEmpty())
+ 		if(dataList.isEmpty()) 
  		{
- 			System.out.println(" E M P T Y ");
- 			model.addAttribute("emptyFolder","Folder is empty");
+  			model.addAttribute("emptyFolder","Folder is empty");
  		}
  		else 
  		{
- 			System.out.println("D A T A L I S T I S "+ dataList.get(0)[0]);
- 	 		model.addAttribute("dataReceivedFromTopicById",dataList);
+  	 		model.addAttribute("dataReceivedFromTopicById",dataList);
  			return "folder-by-name";
 		}
  		
@@ -135,8 +210,7 @@ public class FolderController {
  		// i am getting the data i want now i just have to implement in thymelaef and show data associated withcreatedFolders.get(index).getContentid()
  		// i have all the contentid which is stored in a folder, how to show it is the problem, maybe i need to revise @OneTOMany or related annotation
  		
- 		System.out.println("path variable foldername is "+ foldername);
- 		return "folder-by-name";
+  		return "folder-by-name";
 	}
  	
  	

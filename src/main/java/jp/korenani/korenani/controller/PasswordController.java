@@ -56,8 +56,7 @@ public class PasswordController {
 		name = principal.getAttribute("name");
 
 		
-		System.out.println("enter password get");
-		if (SignUpjpaRepository.findByUsername(email).isPresent())
+ 		if (SignUpjpaRepository.findByUsername(email).isPresent())
 			{
 			/* 			
 			 * 			model.addAttribute("message", "existingUser");
@@ -65,7 +64,8 @@ public class PasswordController {
 			 */			
 			Optional<String> user_profile_name = SignUpjpaRepository.getUserProfileNameByUsername(email);
 			model.addAttribute("user_profile_name",user_profile_name.get());
-			System.out.println("user_profile_name "+user_profile_name.get());
+ 			
+			model.addAttribute("email", email);
 			
 			return "restricted";
 			}
@@ -78,20 +78,16 @@ public class PasswordController {
 			newuser.setUsername(email);
 			
 			newuser.setUserProfileName(String.valueOf(newuser.getId()));
-			System.out.println("I D IS "+newuser.getId());
-			newuser.setEmailverified(true);
+ 			newuser.setEmailverified(true);
 			SignUpjpaRepository.save(newuser);
 			// id of the entity object will be created after saving the entity, so now will update the user_profile_name to be same as id
-			System.out.println("I D IS "+newuser.getId());
-
+ 				
 			SignUpjpaRepository.updateUserProfileNameById(String.valueOf(newuser.getId()), newuser.getId());
 			model.addAttribute("signUpUser1",newuser);
 			model.addAttribute("user_profile_name",newuser.getId());
 
 			return "enter-password";
 			}
-		
-
 		 
 	}
 	
@@ -103,13 +99,11 @@ public class PasswordController {
 		
 		if(passwordfromdatabase.equals(newUser.getPassword()))
 		{
-			System.out.println("returning restricted");
-			return "restricted";
+ 			return "restricted";
 			
 		}
 		else {
-			System.out.println("returning login  ---- password from database is "+passwordfromdatabase +" password from user is "+ newUser.getPassword());
-			//password is not matching but still its letting the user log in
+ 			//password is not matching but still its letting the user log in
 			principal=null;
 			return "redirect:/login";
 		}
@@ -134,8 +128,7 @@ public class PasswordController {
   		
   		if(reCaptchaResponse.isSuccess())
   		{ 
-		System.out.println(newUser.getUserProfileName()+"    "+ newUser.getUsername());
-		newUser.setUserProfileName("null");
+ 		newUser.setUserProfileName("null");
 		newUser.setUsername(email);
 		newUser.setPassword(newUser.getPassword());
 		newUser.setEmailverified(true);

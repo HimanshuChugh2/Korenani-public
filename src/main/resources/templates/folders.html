@@ -18,38 +18,61 @@
 </div>
 <div class="container row">
  <div class="col-md 6"> 
+ <br>
  
-
+ 
+    	<a class="btn btn-info ml-3" href="creators/create-folder" >
+    	<span style="color:white"  class="fas fa-folder-plus"></span>
+    	
+ 		<span style="color:white" th:text="${folderMessage}"></span>
+ 			 </a>
+ 		
+ 	          <br>
+   		
+ 
+<br>
+<br>
  <div th:each= "folder : ${folderdata}">
-   
-   
+   		<div class="shadow p-4 m-3 border" style="width: auto; margin: 0 auto;">
  		<a th:href="@{/creators/folders/{id}(id = ${folder[0]})}">
- 		<img th:src="@{/images/folder.png}" style="width:10%;  height:10%"/>
+		<i class="far fa-folder-open fa-2x"></i> 
  		<br/>
- 		<span th:href="@{/creators/folders/{id}(id = ${folder[0]})}" th:text= "${folder[0]}"></span>
+ 		<span  th:text= "${folder[0]}"></span>
 		
 		</a>
+		</div>
 		<hr/> 
    </div>
        </div>
        
-       
-   <div class="col-md 6"> 
+         <div class="col-md 6"> 
+         <br>
+          <h3 class="btn btn-info"> Move content to folders</h3><br>
+       <span class="date">Check the mark, select the folder and click on "move" to move content to folder</span>
+         <hr>
    <div>
     <div th:each= "content : ${allContentByUser}">
     		<a th:href="@{/creators/authored-by-me/{id}(id = ${content[1]})}">
+    		 
     		<input type="checkbox" th:text="' '+${content[0]}" th:value="${content[1]}" onchange="checkedbox()"/>
     		</a>
    
    </div>
-      <input type="submit" value="Move to folder"   id="movetofolder" style="display:none">
-   
-   <select id="foldername" style="display:none">
+   <br>
+      <select id="foldername" style="display:none; max-width:80%">
     <option th:each= "folder : ${folderdata}" th:text="${folder[0]}"  th:value="${folder[0]}" >	
     </select>
+    
+    <br>
+      <input type="submit" class="btn btn-info" value="Move to folder"   id="movetofolder" style="display:none"  data-toggle="modal" data-target="#exampleModalCenter">
+   <br>
+
    </div>
   </div>
+     <div th:replace="fragments/header :: modalstructure">
+ </div>
   </div>
+  
   <script>
   
 	 
@@ -85,22 +108,48 @@
 	 		.from(document.querySelectorAll('input[type="checkbox"]'))
 	  		.filter((checkbox) => checkbox.checked)
 	  			.map((checkbox) => checkbox.value);
-		 	alert("hi");
- 			var moveDataToFolder={};
-			moveDataToFolder["foldername"] = $("#foldername").val();
-			moveDataToFolder["idsArray"] = valu;
+  			var FolderMoveHelper={};
+  			FolderMoveHelper["foldername"] = $("#foldername").val();
+  			FolderMoveHelper["idsArray"] = valu;
+			console.log(valu +" "+ JSON.stringify(FolderMoveHelper));
 		 
-		alert(JSON.stringify(moveDataToFolder));
-		$.ajax({
+ 		$.ajax({
 			type : "POST", 
 			contentType : "application/json; charset=UTF-8",
 			url : "creators/folders", 
-			data : JSON.stringify(moveDataToFolder),
+			data : JSON.stringify(FolderMoveHelper),
 			dataType : 'json',	
-			success : function(data) {
-				// Code to display the response.
-			}
- 		});
+
+ 		})
+ 		
+ 		
+ 		
+ 		var modal = document.getElementById("exampleModalCenter");
+
+	    modal.style.display = "block";
+		document.getElementById("modalbody").innerText="Content moved to folder";
+		document.getElementById("modalheader").innerText= "Success";
+
+		var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks on <span> (x), close the modal
+		span.onclick = function() {
+		  modal.style.display = "none";
+		}
+
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+		  if (event.target == modal) {
+		    modal.style.display = "none";
+
+			location.reload();
+		  }
+		} 		
+		 
+ 			  
+ 		
+ 		
+ 		
   });
 
    </script>

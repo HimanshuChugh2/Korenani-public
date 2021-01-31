@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>Demo</title>
+    <title>Ask Question</title>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width"/>
     <base href="/"/>
@@ -28,9 +28,9 @@
   <div class="col-md-6">
   <div class="form-group "> 
  
-  <h1>Ask Question </h1>
-
- <input  class="form-control border-nashi" type="text" id="title" placeholder="Title" th:field="*{title}">
+  <h1>&nbsp;Ask Question </h1>
+<br>
+ <input required class="form-control border-nashi" type="text" id="title" placeholder="Title" th:field="*{title}">
  </div>
  <div class="form-group "> 
 
@@ -43,7 +43,7 @@
   <input type="text" style="display:none" class="form-control border-nashi" id="data"th:field="*{data}">
     </div>
       <div class="form-group"> 
-  <input  class="form-control border-nashi" type="text" id="Tags" placeholder="tag someone this question" th:field="*{tags}">
+  <input  class="form-control border-nashi" type="text" id="Tags" placeholder="Tag someone this question" th:field="*{tags}">
  </div>
   <div id="editor" class="form-group ">
    
@@ -54,12 +54,14 @@
 
 
 <div class="form-group">
-<button type="button" value="Ask.." class="btn btn-success " id="submit" data-toggle="modal" data-target="#exampleModalCenter">
+
+<button type="button" value="Ask.." class="btn btn-warning " id="submit" data-toggle="modal" data-target="#exampleModalCenter">
 Submit
 
 </button>
-
-
+<br>
+<br>
+ 
 </div>
 </div>
 <div class="col-md-3"></div>
@@ -154,7 +156,43 @@ Submit
  
 
     $("#submit").click(function(){
-  		var questionResponse={};
+  		
+    	 
+    	if(JSON.stringify(quill.getContents().ops).length<19)
+    		{
+    		
+    		console.log("aa")
+    		
+    		var modal = document.getElementById("exampleModalCenter");
+      		modal.style.display = "block";
+
+    			document.getElementById("modalbody").innerText="Please enter details of your question in the Editor";
+    			document.getElementById("modalheader").innerText= "Error";
+
+    			var span = document.getElementsByClassName("close")[0];
+
+    		// When the user clicks on <span> (x), close the modal
+    			span.onclick = function() {
+    			  modal.style.display = "none";
+    			}
+
+    			// When the user clicks anywhere outside of the modal, close it
+    			window.onclick = function(event) {
+    			  if (event.target == modal) {
+    			    modal.style.display = "none";
+    			  }
+    			}
+    		}
+    		
+    	else{
+    	
+    	
+    	 if(JSON.stringify(quill.getContents().ops).length<4194303)
+		{ 
+    	
+    	
+    	
+    	var questionResponse={};
   		questionResponse["title"]= $("#title").val();
   		questionResponse["data"] = $("#data").val();
   		questionResponse["type"] = $("#type").val();
@@ -173,7 +211,7 @@ Submit
    		}
   		 
   		})
-   
+		
   		console.log("saved");
   		
   		var modal = document.getElementById("exampleModalCenter");
@@ -195,7 +233,39 @@ Submit
 			    modal.style.display = "none";
 			  }
 			}
-	
+			console.log("--")
+		}
+    	
+    	
+    	
+    	
+    	else
+    		{
+    		//alert("Your post is too big to be submitted")
+    		
+    		var modal = document.getElementById("exampleModalCenter");
+  		modal.style.display = "block";
+
+			document.getElementById("modalbody").innerText="Question can not be submitted. Your question must be less than 4 Mega Bytes(MB))";
+			document.getElementById("modalheader").innerText= "Error";
+
+			var span = document.getElementsByClassName("close")[0];
+
+		// When the user clicks on <span> (x), close the modal
+			span.onclick = function() {
+			  modal.style.display = "none";
+			}
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event) {
+			  if (event.target == modal) {
+			    modal.style.display = "none";
+			  }
+			}
+    		
+    		
+    		}
+    	}
 
 
   	});  

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 public class CreatedFolder {
 
 	private String foldername;
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -21,7 +22,7 @@ public class CreatedFolder {
 	public void setFoldername(String foldername) {
 		this.foldername = foldername;
 	}
-
+ 
 	public int getId() {
 		return id;
 	}

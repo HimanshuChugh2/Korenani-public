@@ -69,18 +69,16 @@ public class DiscussController {
 	}
 	
 	@GetMapping
-	public String returndiscuss(@AuthenticationPrincipal OAuth2User principal,Model model,ModelMap modelMap) 
+	public String returndiscuss(@AuthenticationPrincipal OAuth2User principal,Model model,ModelMap modelMap)
 	{
 		if(principal!=null)
 		{
-		System.out.println(" A T T R I B U T  E "+principal.getAttribute("email").toString());
-		}
+ 		}
 		if(getLoggedInUserName()!=null)
 		{
-			System.out.println(" L O G G E D I N U S E R  N A M E I  S "+getLoggedInUserName());
-  		}
+   		}
 		// show all questions recently posted
-		 List<Object[]> l= discussrepo.getalldata();
+		 List<Object[]> l= discussrepo.getalldataSortByDate();
 		// System.out.println(l.get(2)[4]);
 		 model.addAttribute("listy",l);
 		 return "discuss";
@@ -122,8 +120,7 @@ public class DiscussController {
 		//How to let the user know beforehand that you have clapped in last 24 hours
  		//------------checking if user has clapped in past 24 hours----------------
 	    String datetimeRecorded=clapsQuestionRepo.getDatetimeOfQuestionClapByUserProfileNameAndQid(id, email);
-		System.out.println("------------datetime recorded "+datetimeRecorded);
-		if(datetimeRecorded!=null)
+ 		if(datetimeRecorded!=null)
 		{
 			// if datetimeRecorded is not null that means that user has already clapped on this, and so he will be updating the date 
 			DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -144,8 +141,7 @@ public class DiscussController {
 		 
 		
 		//getting count of clap of the question
-		System.out.println("-------------------");
-		Integer clapCountOfQuestion= clapsQuestionRepo.getClapCountByQid(id);
+ 		Integer clapCountOfQuestion= clapsQuestionRepo.getClapCountByQid(id);
  
 		 if(clapCountOfQuestion==null)
 		 {
@@ -168,8 +164,7 @@ public class DiscussController {
 		//How to let the user know beforehand that you have disliked in last 24 hours
 	 		//------------checking if user has clapped in past 24 hours----------------
 		    String datetimeRecordedOfDislikes=dislikesQuestionRepo.getDatetimeOfQuestionDislikesByUserPriflieNameAndQid(id, email);
-			System.out.println("------------datetime recorded "+datetimeRecordedOfDislikes);
-			if(datetimeRecordedOfDislikes!=null)
+ 			if(datetimeRecordedOfDislikes!=null)
 			{
 				// if datetimeRecorded is not null that means that user has already clapped on this, and so he will be updating the date 
 				DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -192,8 +187,7 @@ public class DiscussController {
 			
 			
 			//getting count of clap of the question
-			System.out.println("-------------------");
-			Integer dislikesCountOfQuestion= dislikesQuestionRepo.getDislikesCountByQid(id);
+ 			Integer dislikesCountOfQuestion= dislikesQuestionRepo.getDislikesCountByQid(id);
 	 
 			 if(dislikesCountOfQuestion==null)
 			 {
@@ -233,8 +227,7 @@ public class DiscussController {
    		
    		//getting all the answer ids of all the answer retrieved, this ids will be used to get the claps associated with each answer
  		List<Integer> listofaid =new ArrayList<Integer>();
-		System.out.println("list size is "+ Allanswer.size());
-
+ 
  		for (int i = 0; i < Allanswer.size(); i++) {
  			listofaid.add(Allanswer.get(i).getId());
  			//System.out.println("adding "+Allanswer.get(i).getId());

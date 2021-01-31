@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">  
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Demo</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <base href="/"/>
+    
+      <!-- Main Quill library -->
+ 
+<!-- Theme included stylesheets -->
+ 
+<link href="/mystylesheet.css" th:href="@{css/modalpopup.css}"  rel="stylesheet"  type="text/css">
+ 	<link href="/mystylesheet.css" th:href="@{css/imagediting.css}"  rel="stylesheet"  type="text/css">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+<head th:replace="fragments/header :: headHeader">
+</head>
+
+<head th:replace="fragments/header :: quillScriptFiles">
+</head>
+ 
+</head>
+
+<body>
+   <div th:replace="fragments/header :: navForViewer">
+</div>
+
+<!-- th:action="@{/creators/creating}" -->
+<!-- <form    method="post">
+ -->
+ 
+<div class="container-fluid">
+ 
+<div class="row" >
+ <div class="col-md-3">
+    <br>
+ 
+<i class="fas fa-ad fa-2x"></i>
+ <div class="row form-group">
+ 
+ 
+  <div class="col-md-6">
+ </div>
+ 
+ </div>
+ 
+ </div>
+ <div class="col-md-6">
+  <div th:object="${questiondata}">
+ 
+ 
+  <h2 th:text="*{title}"> </h2>
+  
+  <input type="text" th:field="*{data}" id="data"  style="display:none"/>
+  <span th:field="*{id}" th:text="*{id}" id="qid" style="display:none"></span>
+  
+   <div id="editorRO" class="form-group">
+	</div> 
+<div id="toolbar" class="form-group" >
+</div>
+  
+  <div class="row"> 
+    <div class="col">
+    	<img th:src="@{/images/user.png}" style="width:100%;height:100%;" class="form-control border-nashi" /> 
+   </div>
+  
+  <div class="col">
+ 		<span th:text="*{userprofilename}"  class="form-control border-nashi"></span>
+  </div>
+ 
+   <div class="col"> 
+ 		<span th:text= "*{date}" class="form-control border-nashi date"></span>
+   </div>
+   
+         <div class="col">  
+          <a id="givenroseanchor">
+      
+   <span class="form-control border-nashi far fa-thumbs-up fa-2x" id="givenrose"> </span>
+     Likes: <span id="questionclapcount" th:object="${clapofquestion}" th:text="${clapofquestion}"></span>
+   
+   </a>
+   </div>
+   
+     <div class="col">
+     <span class=" form-control border-nashi far fa-thumbs-down fa-2x" id="dislikeButton"></span>
+     Dislikes: <span id="dislikescountofquestion" th:object="${dislikescountofquestion}" th:text="${dislikescountofquestion}"></span>
+     
+       
+     </div>
+          <div class="col">
+     
+     <div class=" form-control border-nashi fas fa-share fa-2x" style="color:pink"> </div>
+     Share
+</div>
+     
+
+   </div>
+   </div>
+  
+  <hr>
+  
+  <h2 id="countOfTotalAnswers"></h2>
+  <div id="a">
+
+  <input type="text" th:object="${answerdata}" id="divans" th:value="${answerdata}" style="display:none">
+    <input type="text" th:object="${clapofanswer}" id="clapofanswer" th:value="${clapofanswer}" style="display:none">
+        <input type="text" th:object="${dislikesofanswer}" id="dislikesofanswer" th:value="${dislikesofanswer}" style="display:none">
+    
+      <input type="text" th:object="${alreadyClappedByUserData}" id="alreadyClappedByUserData" th:value="${alreadyClappedByUserData}" style="display:none">
+         <input type="text" th:object="${alreadyDislikedByUserData}" id="alreadyDislikedByUserData" th:value="${alreadyDislikedByUserData}" style="display:none">
+   
+   
+     <div id="ansdate"></div>
+
+
+
+
+  </div>
+     <div>
+  <h2> Write an Answer</h2>
+ <div id="editor" class="form-group" style="min-height:300px;">
+</div>
+<br>
+<div id="toolbar"  class="form-group">
+</div>
+ <input type="button" value="Post" class="btn btn-success" id="post"> 
+</div>
+  <br>
+ 
+  <br> 
+    </div> 
+  <div class="col-md-3">
+   <br>
+  
+ <i class="fas fa-ad fa-2x"></i>
+ </div>
+  
+   <hr>
+   
+
+  </div>
+  
+ 
+  
+
+</div>
+    <script type="text/javascript" th:src="@{/javascript/QuillContainerReadOnly.js}"></script>
+       <script type="text/javascript" th:src="@{/javascript/QuillContainer.js}"></script>
+    
+ 
+
+<script>
+
+
+
+//getting the data of answers
+ var y=document.getElementById("divans").value;
+ console.log(y);
+ var parsedAnswers=JSON.parse(y);
+ document.getElementById("countOfTotalAnswers").innerText=parsedAnswers.length+" Answers";
+
+ 
+ 
+//now i need to break the json down into pieces of every saperate answers and show it in a new quill
+   for(var i=0;i<parsedAnswers.length;i++)
+	{
+		var newEditor= document.createElement("div");
+		var id="newEditor"+i;  	 
+		newEditor.id=id;
+		id="#newEditor"+i;
+		
+ 		document.getElementById("a").appendChild(newEditor);
+ 
+ 		console.log("0")
+ 		var quillansdata = new Quill(id, {
+ 			  readOnly: true,
+ 			  theme: 'bubble',
+	  //making this bubble because it will hide toolbar and since it is readonly, when selecting text the toolbar will not pop up
+		});
+ 		console.log("1")
+
+		quillansdata.setContents(JSON.parse(parsedAnswers[i].data));
+ 		console.log("2")
+
+		//creating userprofile name div
+		var userProfileNamediv = document.createElement("div");
+		var userProfileNamedivid="userprofilenamediv"+i;
+		userProfileNamediv.id=userProfileNamedivid;
+		userProfileNamediv.innerText=parsedAnswers[i].userprofilename;
+		userProfileNamediv.classList.add("date");	//applying bootstrap class
+		
+		//creating date div
+		var datediv = document.createElement("div");
+		var datedivid = "datediv"+i;
+		datediv.id=datedivid;
+		datediv.innerText=parsedAnswers[i].date;
+		datediv.classList.add("date");
+		
+		
+		
+		
+		//creating id of answer and associating it with each created answer
+	 	var iddiv= document.createElement("span");
+		var iddivid= "iddiv"+i;
+		iddiv.id=iddivid;
+		iddiv.innerText=parsedAnswers[i].id;
+ 		iddiv.style.display="none";
+	 	iddiv.style.color="red";
+	 	
+	 	//creating react anchors like clap and dislike
+		var clapanchor= document.createElement("div");
+		var dislikeanchor= document.createElement("div");
+
+	 	//iddiv contains id of answer
+		var clapanchorid= iddiv.innerText;
+ 		clapanchor.id=clapanchorid;
+ 		
+		var dislikeanchorid= iddiv.innerText;
+		dislikeanchor.id=dislikeanchorid;
+ 		
+ 		//creating the div which will contain the value of upvotes, dislikes
+  		var z=document.getElementById("clapofanswer").value;
+ 		var zz=document.getElementById("dislikesofanswer").value;
+
+ 		//getting the aid and true or false if the user has clapped within 24 hours  
+ 		var alreadyClappedByUserData= document.getElementById("alreadyClappedByUserData").value;
+ 		var alreadyDislikedByUserData= document.getElementById("alreadyDislikedByUserData").value;
+
+ 		
+ 		z=JSON.parse(z);
+ 		zz=JSON.parse(zz);
+
+    	console.log("z "+JSON.stringify(z[i]));
+    	console.log("zz "+JSON.stringify(zz[i]));
+
+ 		var upvotecount= document.createElement("div");
+ 		upvotecount.id=iddiv.innerText;					// id is same as iddiv's id
+ 		console.log("upvotecount.id "+upvotecount.id)
+ 		
+ 		var downvotecount= document.createElement("div");
+ 		downvotecount.id=iddiv.innerText;					// id is same as iddiv's id
+ 		console.log("downvotecount.id "+downvotecount.id)
+ 		
+ 		
+ 		// getting the index of the clapcount and getting the aid
+ 		// checking the index where aid is in z(z contains two elements, aid and clapcount)
+   		var index = z.findIndex(obj => obj.aid==upvotecount.id)
+ 		if(index!=-1)
+ 			{	
+ 	 	    	//upvotecount.innerText=z[index].clapcount +" Rights";
+ 	 	    	upvotecount.innerText=z[index].clapcount;
+
+ 			}
+ 		else
+ 			{
+ 			upvotecount.innerText=0;
+ 			}
+ 		
+ 		
+ 		// getting the index of the clapcount and getting the aid
+ 		// checking the index where aid is in z(z contains two elements, aid and clapcount)
+   		var index1 = zz.findIndex(obj => obj.aid==downvotecount.id)
+ 		if(index1!=-1)
+ 			{	
+ 			//downvotecount.innerText=zz[index1].dislikescount +" Wrongs";
+ 			downvotecount.innerText=zz[index1].dislikescount ;
+
+ 			}
+ 		
+ 		else
+ 			{
+ 			downvotecount.innerText=0;
+ 			}
+ 		
+ 		
+ 		
+ 		
+ 		var alreadyClappedByUserDataJSON= JSON.parse(alreadyClappedByUserData);
+ 		var indexOfUpvoteCountAid = alreadyClappedByUserDataJSON.findIndex(obj => obj.aid==upvotecount.id)
+ 		if(indexOfUpvoteCountAid!=-1)
+ 			{ 	
+ 	 		clapanchor.classList.add("fas","fa-circle");
+ 	 		clapanchor.style.color="pink";
+  			//for question upvote, it still shows the alret(), change it later
+ 			clapanchor.title="Already upvoted, Try again after 24 hours of the previous upvote !"
+ 			//clapanchor.disabled=true;
+ 			
+ 			
+ 			}
+ 		else
+ 			{ 
+ 	 		clapanchor.style.color="gray";  			
+ 			}
+
+ 		
+ 		
+ 		var alreadyDislikedByUserDataJSON= JSON.parse(alreadyDislikedByUserData);
+ 		var indexOfDownvoteCountAid = alreadyDislikedByUserDataJSON.findIndex(obj => obj.aid==downvotecount.id)
+ 		if(indexOfDownvoteCountAid!=-1)
+ 			{ 	
+ 			dislikeanchor.classList.add("fas","fa-times" );
+ 			dislikeanchor.style.color="pink";
+  			//for question upvote, it still shows the alret(), change it later
+ 			clapanchor.title="Already upvoted, Try again after 24 hours of the previous upvote !"
+ 			//clapanchor.disabled=true;
+ 			}
+ 		else
+ 			{
+ 			dislikeanchor.style.color="gray";
+
+ 			}
+
+ 		
+ 		clapanchor.onclick= function()
+ 		 {
+ 			//alert("clicked "+this.id)
+ 	 		var ansId=this.id;
+ 	 		 
+  	 		var request=$.ajax({
+ 	 		type : "POST", 
+ 	 		contentType : "application/json; charset=UTF-8",
+ 	 		url : "discuss/add-clap-answer", 
+ 	 		data : JSON.stringify(ansId),	
+ 	 		
+  		});
+  	 	    request.done(function( msg ) {
+  	 		//alert(msg);
+  	 		console.log(msg)
+  	 		console.log(ansId)
+ 			// i have two elements with same id (button and clapcountanswer) so, i get both of the elements and i choose the second one because that contains the clapcount
+ 			var clapcountboth =   document.querySelectorAll("[id='"+ansId+"']");
+  	 		var clapcountdiv=clapcountboth[1];
+  	 		//$(clapcountdiv).text(parseInt($(clapcountdiv).text())+1+" Rights");
+  	 		$(clapcountdiv).text(parseInt($(clapcountdiv).text())+1);
+  	 		var gettingClapAnchor= document.getElementById(ansId);  //as the circle button has the same id , and it is on the first position so we can simply get it by this line, but for getting the dislike anchor we have to do something else
+  	 		gettingClapAnchor.classList.add("fas","fa-circle" );
+
+  	 		gettingClapAnchor.style.color="pink";
+ 	 		//alert("clicked1 clapanchor id is "+clapanchor.id+" ansId is "+ansId)
+ 	 		
+  	 		});
+ 		 }
+  	 	    
+  	 	   
+  	 	    
+  	 	    
+  	 		
+  	 	 dislikeanchor.onclick= function()
+  	 		 {
+  	 			//alert("clicked "+this.id)
+  	 	 		var ansId=this.id;
+  	 	 		 
+  	  	 		var request=$.ajax({
+  	 	 		type : "POST", 
+  	 	 		contentType : "application/json; charset=UTF-8",
+  	 	 		url : "discuss/add-dislike-answer", 
+  	 	 		data : JSON.stringify(ansId),	
+  	 	 		
+  	  		});
+  	  	 	    request.done(function( msg ) {
+  	  	 		//alert(msg);
+  	  	 		console.log(msg)
+  	  	 		console.log("ansId "+ansId)
+  	 			// i have two elements with same id (clapanchor and clapcountanswer) so, i get both of the elements and i choose the second one because that contains the clapcount
+  	 			var dislikecount =   document.querySelectorAll("[id='"+ansId+"']");
+  	  	 		var dislikecountdiv=dislikecount[3];
+  	  	 		//$(dislikecountdiv).text(parseInt($(dislikecountdiv).text())+1+" Wrongs");
+  	  	 		$(dislikecountdiv).text(parseInt($(dislikecountdiv).text())+1);
+  	  	 		var gettingDislikeAnchor=dislikecount[2];
+  	  	 		gettingDislikeAnchor.classList.add("fas","fa-times");
+  	 			dislikeanchor.style.color="pink";
+
+  	  	 		gettingDislikeAnchor.style.color="pink";
+  	 	 		//alert("clicked1 clapanchor id is "+clapanchor.id+" ansId is "+ansId)
+  	 	 		
+  	  	 		});
+  	 	    
+  	 	    
+  	 	    
+  	 	 
+  	 	 
+  	 	 request.always(function(msg) {
+  	     console.log("always "+msg)
+  	     console.log(ansId)
+
+  	 		//alert("always")
+  	 		});
+  	 	 
+  	 	  request.fail(function(jqXHR, textStatus) {
+  	 		    alert( jqXHR.responseText);
+    	 		console.log(ansId)
+
+  	 		});
+ 		 }
+ 		  
+ 	
+ 	
+/*  		//creating clap image
+ 		var clapimage=document.createElement("img");
+ 		clapimage.src="/images/givenrose.png";
+ 		clapimage.id="givenroseanswer";
+ 		clapimage.style.height="80px"; */
+/*  		 
+ 		var clapanchorid= "clapanchor"+i;
+ 		clapanchor.href="discuss/upvoteanswer/"+iddiv.innerText;
+ 		clapanchor.value=i;
+
+ 		clapanchor.id=i;
+ 		clapanchor.value=clapanchorid;
+ 		clapanchor.onclick=function() {   alert( clapanchor.href);};
+ 		clapanchor.appendChild(clapimage); */
+
+
+		//appending all created childs
+	    var divcontainer= document.createElement("div");
+ 		divcontainer.id=iddiv.innerText+"divcontainer";
+ 		//divcontainer.classList.add("row");
+ 		
+ 		var containerForReactButtons= document.createElement("div");
+ 		containerForReactButtons.id="containerForReactButtons";
+ 		containerForReactButtons.classList.add("row");
+ 		
+ 		
+ 		clapanchorContainer= document.createElement("div");
+   		clapanchorContainer.classList.add("col-md-3");
+ 	
+   		clapanchor.classList.add("far","fa-circle");
+ 		clapanchor.style.fontSize="150%";
+ 
+  		
+  		var writtenMaru= document.createElement("span");
+  		writtenMaru.style.fontSize="120%";
+  		writtenMaru.innerText=" Right";
+  		
+  		
+  		clapanchorContainer.appendChild(clapanchor);
+  		clapanchorContainer.appendChild(writtenMaru); 
+  		clapanchorContainer.appendChild(upvotecount);
+ 
+ 		
+  		dislikeanchorContainer= document.createElement("div"); 
+  		dislikeanchorContainer.classList.add("col-md-3");
+  	
+  		dislikeanchor.classList.add("fas","fa-times");
+ 		dislikeanchor.style.fontSize="150%";
+  		
+  		var writtenBatsu= document.createElement("span");
+    	writtenBatsu.style.fontSize="120%";
+  		writtenBatsu.innerText=" Wrong";
+  		
+  		
+  		dislikeanchorContainer.appendChild(dislikeanchor);
+  		dislikeanchorContainer.appendChild(writtenBatsu); 
+  		dislikeanchorContainer.appendChild(downvotecount);   		
+  		
+  		
+  		containerForReactButtons.appendChild(clapanchorContainer);
+  		containerForReactButtons.appendChild(dislikeanchorContainer);
+
+  		
+  		//iddiv.classList.add("col") 
+ 		// containerForReactButtons.appendChild(iddiv);
+ 		
+  		
+ 		datediv.classList.add("col-md-3") 
+ 		containerForReactButtons.appendChild(datediv);
+ 		
+ 		userProfileNamediv.classList.add("col-md-3") 
+ 		containerForReactButtons.appendChild(userProfileNamediv);
+  		
+  		containerForReactButtons.classList.add("bg-white","py-3","px-5");
+		
+  		
+  		
+  		var getQuillEditor=document.getElementById("newEditor"+i);
+
+   		divcontainer.appendChild(getQuillEditor);
+ 		divcontainer.appendChild(document.createElement("br"));
+ 		divcontainer.appendChild(document.createElement("hr"));
+
+   		divcontainer.appendChild(containerForReactButtons);
+
+   		//divcontainer.appendChild(document.createElement("hr"));
+ 
+ 		divcontainer.classList.add("border", "mb-5","mt-5","px-3","rounded");
+ 		
+		document.getElementById("a").appendChild(divcontainer);
+  
+/* 		document.getElementById("a").appendChild(document.createElement("hr"));
+ */ 
+		
+	 }
+	
+   </script>
+   
+   
+
+ 
+ <script>
+ 
+ //setting data of question in a read only quill container
+ if(document.getElementById("data").value!="")
+	{
+
+	 quillRO.setContents(JSON.parse(document.getElementById("data").value));
+	 
+	 //setting the color of givenrose as normal if user has upvoted in past 24 hours
+	 
+	 var x= "[[${clappedOnQuestionIn24Hours}]]";
+  	  if(x==1)
+		  {
+  		document.getElementById("givenrose").classList.add("fas", "fa-thumbs-up", "fa-2x")
+  		document.getElementById("givenrose").style.color="pink";
+
+		  }
+  	  
+  	  
+  	var xx= "[[${dislikedOnQuestionIn24Hours}]]";
+	  if(xx==1)
+		  {
+ 			document.getElementById("dislikeButton").classList.add("fas", "fa-thumbs-down","fa-2x")
+			document.getElementById("dislikeButton").style.color="pink";
+		  }
+	 
+
+	}
+  	 
+ </script>
+ 
+ 
+	   <script>
+ 	   document.querySelector("img").style.height="100%";
+	   document.querySelector("img").style.width="100%"; 
+ 	   </script>
+	   
+	   
+	   <script>
+    $("#post").click(function(){
+ 		var AnswerAdded={};
+ 		AnswerAdded["qid"]= $("#qid").text();
+ 		AnswerAdded["data"] = JSON.stringify(quill.getContents());
+    		/* alert(JSON.stringify(questionResponse)); */
+ 		$.ajax({
+ 		type : "POST", 
+ 		contentType : "application/json; charset=UTF-8",
+ 		url : "add-answer", 
+ 		data : JSON.stringify(AnswerAdded),
+ 		dataType : 'json',	
+ 
+ 		});
+ 		});  
+
+    </script>
+    
+    
+    
+    
+    <script>
+ // clapping on question
+   $("#givenroseanchor").click(function(){
+/*   	  var datetime="[[${clapdatetimeofquestion}]]";
+	  console.log("-------------- datetime is --------------")
+  	  console.log(datetime);
+ */	   
+	     var qid=$("#qid").text();
+ 		 var request=$.ajax({
+
+	 		type : "POST", 
+	 		contentType : "application/json; charset=UTF-8",
+	 		url : "discuss/add-clap-question",
+	 		data : JSON.stringify(qid),
+	 		//dataType : 'json',	
+/* 	 		beforeSend: function( xhr ) {
+	 		   alert(" before send ")
+	 		  },
+ */
+	 		});
+ 
+ request.done(function( msg ) {
+	//alert(msg);
+	console.log(msg)
+	$("#questionclapcount").text(parseInt($("#questionclapcount").text())+1)
+	document.getElementById("givenrose").classList.add("fas", "fa-thumbs-up", "fa-2x");
+	document.getElementById("givenrose").style.color="pink";
+
+	});
+ 
+ 
+ request.always(function(msg) {
+	 console.log("always "+msg)
+	//alert("always")
+	});
+ 
+  request.fail(function(jqXHR, textStatus) {
+	  alert(jqXHR.responseText);
+	});
+ 	//    var v= "[[${clapbeforetimeerror}]]";
+ 	    
+   });
+   
+	  
+   </script>
+   
+   
+   
+   <script>
+   // clicking on dislike
+   $("#dislikeButton").click(function(){
+  	  var datetime="[[${dislikedatetimeofquestion}]]";
+	  console.log("-------------- datetime is --------------")
+  	  console.log(datetime);
+	   
+	     var qid=$("#qid").text();
+ 		 var request=$.ajax({
+
+	 		type : "POST", 
+	 		contentType : "application/json; charset=UTF-8",
+	 		url : "discuss/add-dislike-question",
+	 		data : JSON.stringify(qid),
+	 		//dataType : 'json',	
+/* 	 		beforeSend: function( xhr ) {
+	 		   alert(" before send ")
+	 		  },
+ */
+	 		});
+ 
+ request.done(function( msg ) {
+	//alert(msg);
+	console.log(msg)
+	$("#dislikescountofquestion").text(parseInt($("#dislikescountofquestion").text())+1)
+	document.getElementById("dislikeButton").classList.add("fas", "fa-thumbs-down","fa-2x")
+	document.getElementById("dislikeButton").style.color="pink";
+
+	
+	});
+ 
+ 
+ request.always(function(msg) {
+	 console.log("always "+msg)
+	//alert("always")
+	});
+ 
+  request.fail(function(jqXHR, textStatus) {
+	  alert(jqXHR.responseText);
+	});
+ 	//    var v= "[[${clapbeforetimeerror}]]";
+ 	    
+   });
+   
+	  
+   </script>
+   
+   
+   
+   
+  
+
+    
+   
+</body>
+</html>
+
+
+ <!-- not able to create quill div dynamically when using thymeleaf, so i will convert the answer data to JSon in controller and then use that from js and create quill and show corresponding answers of the question -->
+ 
+<!-- can not directly access model from controller, as it is converting " into &quot; and it is difficult to use replace function because after using this function, it still not working because this function is ignoring / and its returning wrong value after replacing so i have converted the value of list<answer> to json in controller and passed it to thymeleaf div and then getting that div's value in js' -->

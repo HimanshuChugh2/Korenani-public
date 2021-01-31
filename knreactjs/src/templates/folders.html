@@ -1,0 +1,109 @@
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">  
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Demo</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <base href="/"/>
+    
+<head th:replace="fragments/header :: headHeader">
+
+  
+</head>
+<body>
+   <div th:replace="fragments/header :: CreatorsNavbar">
+</div>
+<div class="container row">
+ <div class="col-md 6"> 
+ 
+
+ <div th:each= "folder : ${folderdata}">
+   
+   
+ 		<a th:href="@{/creators/folders/{id}(id = ${folder[0]})}">
+ 		<img th:src="@{/images/folder.png}" style="width:10%;  height:10%"/>
+ 		<br/>
+ 		<span th:href="@{/creators/folders/{id}(id = ${folder[0]})}" th:text= "${folder[0]}"></span>
+		
+		</a>
+		<hr/> 
+   </div>
+       </div>
+       
+       
+   <div class="col-md 6"> 
+   <div>
+    <div th:each= "content : ${allContentByUser}">
+    		<a th:href="@{/creators/authored-by-me/{id}(id = ${content[1]})}">
+    		<input type="checkbox" th:text="' '+${content[0]}" th:value="${content[1]}" onchange="checkedbox()"/>
+    		</a>
+   
+   </div>
+      <input type="submit" value="Move to folder"   id="movetofolder" style="display:none">
+   
+   <select id="foldername" style="display:none">
+    <option th:each= "folder : ${folderdata}" th:text="${folder[0]}"  th:value="${folder[0]}" >	
+    </select>
+   </div>
+  </div>
+  </div>
+  <script>
+  
+	 
+  function checkedbox ()
+  {
+	  var isChecked = $("input[type=checkbox]").is(":checked")
+	  
+      if(isChecked) 
+    	  {
+    	  
+    	 console.log("checked")
+    	 document.getElementById("movetofolder").style.display="block";
+   	     document.getElementById("foldername").style.display="block";
+    	  }
+      else
+    	  {
+     	 console.log("not checked")
+
+     	document.getElementById("movetofolder").style.display="none";
+   	     document.getElementById("foldername").style.display="none";
+
+    	  }
+  }	 
+  
+  
+  
+  
+  
+  
+  var valu;
+  $("#movetofolder").click(function(){
+			 valu  = Array
+	 		.from(document.querySelectorAll('input[type="checkbox"]'))
+	  		.filter((checkbox) => checkbox.checked)
+	  			.map((checkbox) => checkbox.value);
+		 	alert("hi");
+ 			var moveDataToFolder={};
+			moveDataToFolder["foldername"] = $("#foldername").val();
+			moveDataToFolder["idsArray"] = valu;
+		 
+		alert(JSON.stringify(moveDataToFolder));
+		$.ajax({
+			type : "POST", 
+			contentType : "application/json; charset=UTF-8",
+			url : "creators/folders", 
+			data : JSON.stringify(moveDataToFolder),
+			dataType : 'json',	
+			success : function(data) {
+				// Code to display the response.
+			}
+ 		});
+  });
+
+   </script>
+  
+</body>
+</html>

@@ -17,18 +17,22 @@
    <div th:replace="fragments/header :: CreatorsNavbar">
 </div>
 
-
+<div class="container">
 <div th:if = "${emptyFolder}">
 	<div th:text= "${emptyFolder}">
 	
 	</div>
 </div>
 <div th:each= "folder : ${dataReceivedFromTopicById}">
- Content Topic -->	<a th:href="@{/creators/authored-by-me/{id}(id = ${folder[1]})}" th:text= "${folder[0]}">
+	<div class="p-2 m-2 shadow-sm" style="max-width:400px">
+ <a style="color:blue" th:href="@{/creators/authored-by-me/{id}(id = ${folder[1]})}">
+ <i class="far fa-file"></i>
+ <span th:text= "${folder[0]}"> </span> 	
 	</a>
-
+	
+	</div> 
  </div>
-
+</div>
 
 </body>
 </html>

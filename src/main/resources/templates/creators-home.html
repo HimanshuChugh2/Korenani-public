@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>Demo</title>
+    <title>Creator Console</title>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width"/>
     <base href="/"/>
@@ -16,15 +16,41 @@
 
  
 </head>
-<body>
-  
+<body >
   <div th:replace="fragments/header :: CreatorsNavbar">
   </div>
+  <div id="CreatorsHome">
+
+  <div class=" container p-4">
+ 
+
   
-  <br>
+   <h4 style="display:inline" class="font-weight-bold">
+    <span class="fas fa-quote-left"></span>
+   <cite>Share your knowledge. It is a way to achieve immortality.</cite>
+   <span class="fas fa-quote-right"></span><br>
+   </h4>
+   <br>
+   <span class="font-weight-light">ーDalai Lama</span>
+
+   <br>
+   <br>
   <hr/>
-  <h4 >This is creators Home</h4>
-  <h6> write here what the creators can create here... </h6>
-  <hr/>
+    <br>
+  <h4 >What can you do to share your knowledge ?</h4>
+  <ul>
+  <li class="tab"><a href="/creators/creating">Create a course that you would like to teach</a></li>
+  <li class="tab"><a> Promote the courses you create by sharing it with someone who needs it</a></li>
+  <li class="tab"><a>The more engagement you have on your courses, the more you Earn </a></li>
+  <li class="tab"><a> You can share your valuable knowledge with others </a></li>
+    <li class="tab"><a> You can start earning by creating content </a></li>
+  
+  </ul>  
+   </div>
+   
+     </div>
+      <div id="footer" th:replace="fragments/header :: footerBlack">
+   </div>
+  
   </body>
   

@@ -1,10 +1,11 @@
  
- <div th:fragment="headHeader" xmlns:th="http://www.thymeleaf.org">
+ <head th:fragment="headHeader" xmlns:th="http://www.thymeleaf.org">
  
  <!-- CSS only -->
  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
  
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
 
 <!-- JS, Popper.js, and jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -13,15 +14,16 @@
     <link href="/mycss.css" th:href="@{css/mycss.css}"  rel="stylesheet"  type="text/css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
- </div>
+ <link rel="icon" href="images/KN logo.png">
+ </head>
  
  
- <div th:fragment="navForViewer" xmlns:th="http://www.thymeleaf.org">
+ 
+ <div th:fragment="navForLandingPage" xmlns:th="http://www.thymeleaf.org">
   <noscript>Sorry, your browser does not support JavaScript!</noscript>
   
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm navbar-custom">
-  <a class="navbar-brand" href="/login">Korenani</a>
+ <nav class="navbar navbar-expand-lg navbar-dark navbar-custom" style=" background-color: #3c3cf4">
+  <a class="navbar-brand mb-0 h1" href="/">Korenani。</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -29,18 +31,27 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
-        <a class="nav-link" href="/ask-question">Ask a question <span class="sr-only"></span></a>
+        <a class="nav-link" href="/ask-question">
+        <i class="fas fa-plus"></i>
+        Ask a question <span class="sr-only"></span></a>
       </li>
  
         <li class="nav-item">
-        <a class="nav-link" href="/creators">Creators <span class="sr-only"></span></a> 
+        
+        <a class="nav-link" href="/creators">
+        <i class="fas fa-feather-alt"></i>
+        Create Content <span class="sr-only"></span></a> 
       </li>
        <li class="nav-item">
-        <a class="nav-link" href="/discuss">Discuss <span class="sr-only"></span></a>
+        <a class="nav-link" href="/discuss">
+        <i class="fas fa-comments"></i>
+        Discuss <span class="sr-only"></span></a>
       </li>
- 
+       <!--  <li class="nav-item">
+        <a class="nav-link" href="/search-courses">Search Courses <span class="sr-only"></span></a>
+      </li> -->
       
-       <li class="nav-item m-0" >
+       <li class="nav-item m-0">
       	
 <!--       	 <a id="userprofilenameHeader" class="nav-link" th:href="@{/{username}(username = ${user_profile_name})/edit}" th:value="${user_profile_name}"> -->
  	 
@@ -52,9 +63,205 @@
   </ul> 
       
       <div class="authenticated " style="display: none">
-        <Button onClick="logout()" class="btn btn-outline-success my-2 my-sm-0">Logout<span class="sr-only"></span></Button>
+        <Button onClick="logout()" class="btn btn-outline-light my-2 my-sm-0">Logout<span class="sr-only"></span>
+        <i class="fas fa-sign-out-alt"></i>
+
+        
+        </Button>
         </div> 
+        <div class="unauthenticated">
+   <a href="login" class="btn btn-outline-light"> 
+   <i class="fas fa-sign-in-alt"></i>
+
    
+   Login / Sign up</a>
+   </div>
+  </div>
+</nav>
+ 
+<script>
+
+var logout = function() { 
+    $.post("/logout", function() {
+        $("#user").html('');
+        $(".unauthenticated").show();
+        $(".authenticated").hide();
+	        localStorage.removeItem("userprofilename"); 
+		document.getElementById("userprofilenameHeader").innerText="";
+		document.getElementById("alreadyloggedin").innerText="";					
+		console.log("clicked on logout2")
+    })
+    return true;
+}
+
+console.log("VALUE ADDED IS "+localStorage.getItem("userprofilename"))
+//i have stored the userprofile name in a js session to make it available on all pages across the webapp
+//using session to use the userprofile name in all html pages
+console.log("script")
+if (typeof(Storage) !== "undefined") {
+	
+	
+	
+	if(localStorage.getItem("userprofilename")==null  || localStorage.getItem("userprofilename")=="")
+		{
+		if(document.getElementById("userprofilenameHeader").getAttribute("value")!="")
+			//when the link contains nothing, that means that we are on a page which does not need user to be logged in
+		{
+			//setting logout button todisplay when the local session has a value(which also means that the user is logged in)
+		document.querySelector(".authenticated").style.display="block";
+		
+	    //when logout button is shown then login is hidden
+		document.querySelector(".unauthenticated").style.display="none";
+
+		console.log("script1")
+
+		
+		localStorage.setItem("userprofilename", document.getElementById("userprofilenameHeader").getAttribute("value"));
+		console.log(document.getElementById("userprofilenameHeader").getAttribute("value"))
+		console.log(localStorage.getItem("userprofilename"))
+		
+ 		let userprofilenamelet= document.createElement("a")
+		userprofilenamelet.id="userprofilenameHeaderSpan";
+  	 	userprofilenamelet.innerText=localStorage.getItem("userprofilename");
+	 	//userprofilenamelet.href=sessionStorage.getItem("userprofilename");
+		userprofilenamelet.classList.add("ml-2")
+		
+		let userProfileIcon= document.createElement("a");
+		userProfileIcon.id="userProfileIcon";
+		userProfileIcon.classList.add("fas","fa-user");
+		//userProfileIcon.href=sessionStorage.getItem("userprofilename");
+		userProfileIcon.backgroundcolor="white";
+		
+		userprofilenameHeader.href=localStorage.getItem("userprofilename")+"/edit";
+		
+		document.getElementById("userprofilenameHeader").appendChild(userProfileIcon);
+
+		document.getElementById("userprofilenameHeader").appendChild(userprofilenamelet);
+		
+		
+		}
+		}
+	else if( localStorage.getItem("userprofilename")!= null && localStorage.getItem("userprofilename") != "")
+		{
+		//setting logout button todisplay when the local session has a value(which also means that the user is logged in)
+		document.querySelector(".authenticated").style.display="block";
+		
+		document.querySelector(".unauthenticated").style.display="none";
+
+		console.log("script2")
+
+		console.log("userprofilename "+"already set")
+		let userprofilenamelet= document.createElement("a")
+		userprofilenamelet.id="userprofilenameHeaderSpan";
+  		
+		userprofilenamelet.innerText=localStorage.getItem("userprofilename");
+		
+		//userprofilenamelet.href=sessionStorage.getItem("userprofilename");
+		userprofilenamelet.classList.add("ml-2")
+		
+		
+		let userProfileIcon= document.createElement("a");
+		userProfileIcon.id="userProfileIcon";
+ 		userProfileIcon.classList.add("fas","fa-user");  
+		//userProfileIcon.href=sessionStorage.getItem("userprofilename");
+		userProfileIcon.backgroundcolor="white";
+		
+		
+		userprofilenameHeader.href=localStorage.getItem("userprofilename") +"/edit";
+
+		document.getElementById("userprofilenameHeader").appendChild(userProfileIcon);
+
+		document.getElementById("userprofilenameHeader").appendChild(userprofilenamelet);
+
+		}
+
+} 
+else 
+	{
+			 document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+	}
+
+/* 			//setting the value of header link of userprofile name to the value which is stored in the above js session,
+* after login the default value of the "userprofilename tab" in header will not be used, after login, a session value will be stored in js session which will contain the userprofilename, this value will be used for populating the  "userprofilename tab" of header
+using js session because model value is limited to one html page, js session can be used globally 
+*/
+
+
+
+
+
+//setting the value of header link of userprofile name to the value which is stored in the above js session
+
+
+
+
+
+
+</script>
+
+</div> 
+ 
+ 
+ 
+ 
+ 
+ <div th:fragment="navForViewer" xmlns:th="http://www.thymeleaf.org">
+  <noscript>Sorry, your browser does not support JavaScript!</noscript>
+  
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm navbar-custom">
+  <a class="navbar-brand mb-0 h1" href="/">Korenani。</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+
+      
+        <a class="nav-link" href="/ask-question">
+        <i class="fas fa-plus"></i>
+       
+        Ask a question <span class="sr-only"></span></a>
+      </li>
+ 
+        <li class="nav-item">
+        <a class="nav-link" href="/creators">
+        <i class="fas fa-feather-alt"></i>
+        Create Content <span class="sr-only"></span></a> 
+      </li>
+       <li class="nav-item">
+        
+        <a class="nav-link" href="/discuss"> 
+        <i class="fas fa-comments"></i>
+        Discuss <span class="sr-only"></span>
+        </a>
+      </li>
+ 
+      
+       <li class="nav-item m-0">
+      	
+<!--       	 <a id="userprofilenameHeader" class="nav-link" th:href="@{/{username}(username = ${user_profile_name})/edit}" th:value="${user_profile_name}"> -->
+ 	 
+  	 	 <a id="userprofilenameHeader" class="nav-link"   th:value="${user_profile_name}">
+ 
+        </a>
+ 
+      </li>
+  </ul> 
+      
+      <div class="authenticated " style="display: none">
+        <Button onClick="logout()" class="btn btn-outline-light my-2 my-sm-0">Logout<span class="sr-only"></span>
+        <i class="fas fa-sign-out-alt"></i>
+
+        
+        </Button>
+        </div> 
+        <div class="unauthenticated">
+   <a href="login" class="btn btn-outline-light">
+   <i class="fas fa-sign-in-alt"></i>
+    Login / Sign up</a>
+   </div>
   </div>
 </nav>
 
@@ -88,6 +295,10 @@ if (typeof(Storage) !== "undefined") {
 		{
 			//setting logout button todisplay when the local session has a value(which also means that the user is logged in)
 		document.querySelector(".authenticated").style.display="block";
+		
+	    //when logout button is shown then login is hidden
+		document.querySelector(".unauthenticated").style.display="none";
+
 		console.log("script1")
 
 		
@@ -103,7 +314,7 @@ if (typeof(Storage) !== "undefined") {
 		
 		let userProfileIcon= document.createElement("a");
 		userProfileIcon.id="userProfileIcon";
-		userProfileIcon.classList.add("far","fa-user");
+		userProfileIcon.classList.add("fas","fa-user");
 		//userProfileIcon.href=sessionStorage.getItem("userprofilename");
 		userProfileIcon.backgroundcolor="white";
 		
@@ -120,6 +331,8 @@ if (typeof(Storage) !== "undefined") {
 		{
 		//setting logout button todisplay when the local session has a value(which also means that the user is logged in)
 		document.querySelector(".authenticated").style.display="block";
+		
+		document.querySelector(".unauthenticated").style.display="none";
 
 		console.log("script2")
 
@@ -135,7 +348,7 @@ if (typeof(Storage) !== "undefined") {
 		
 		let userProfileIcon= document.createElement("a");
 		userProfileIcon.id="userProfileIcon";
- 		userProfileIcon.classList.add("far","fa-user");  
+ 		userProfileIcon.classList.add("fas","fa-user");  
 		//userProfileIcon.href=sessionStorage.getItem("userprofilename");
 		userProfileIcon.backgroundcolor="white";
 		
@@ -178,16 +391,22 @@ using js session because model value is limited to one html page, js session can
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
  
  <div th:fragment="CreatorsNavbar" xmlns:th="http://www.thymeleaf.org">
- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Korenani Creators</a>
+ <nav id="CreatorsNavbar" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm navbar-custom">
+  <a class="navbar-brand mb-0 h1" href="#">Korenani Creators</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Home <span class="sr-only"></span></a>
+           <li class="nav-item">
+        <a class="nav-link" href="creators/creating" data-toggle="tooltip" title="Create a new course, give it a name you like">Create new course</a>
       </li>
+    <li class="nav-item">
+        <a class="nav-link" href="creators/authored-by-me" data-toggle="tooltip" title="Make changes or expand the content you have created">Update existing courses</a>
+      </li>  
+       <li class="nav-item">
+        <a class="nav-link" href="creators/drafts" data-toggle="tooltip" title="Go to your drafts">Drafts</a>
+      </li>  
       <li class="nav-item">
         <a class="nav-link" href="creators/folders">Existing Folders</a>
       </li>
@@ -208,17 +427,7 @@ using js session because model value is limited to one html page, js session can
          </div> -->
          
       </li>
-      
-       <li class="nav-item">
-        <a class="nav-link" href="creators/creating" data-toggle="tooltip" title="Create a new course, give it a name you like">Create new course</a>
-      </li>
-      
-      <li class="nav-item">
-        <a class="nav-link" href="creators/authored-by-me" data-toggle="tooltip" title="Make changes or expand the content you have created">Update existing courses</a>
-      </li>  
-       <li class="nav-item">
-        <a class="nav-link" href="creators/drafts" data-toggle="tooltip" title="Go to your drafts">Drafts</a>
-      </li>  
+ 
     </ul>
   </div>
 </nav>
@@ -247,7 +456,7 @@ using js session because model value is limited to one html page, js session can
     <span class="navbar-toggler-icon justify-content-start align-self-start"></span>
   </button>
   
-<a class="navbar-brand mr-1" href="/login">Korenani |</a>
+<a class="navbar-brand mr-1 mb-0 h1" href="/login">Korenani |</a>
 
 <!-- put the top 5 articles by this user and top 5 catagories by this user in the side bar 
  -->  <a id="userprofilenameHeader" class="navbar-brand"   th:value="${user_profile_name}" style="font-size:1.2rem"></a>
@@ -294,7 +503,7 @@ if (typeof(Storage) !== "undefined") {
 		
 		let userProfileIcon= document.createElement("a");
 		userProfileIcon.id="userProfileIcon";
-		userProfileIcon.classList.add("far","fa-user");
+		userProfileIcon.classList.add("fas","fa-user");
 		//userProfileIcon.href=sessionStorage.getItem("userprofilename");
 		userProfileIcon.backgroundcolor="white";
 		
@@ -323,7 +532,7 @@ if (typeof(Storage) !== "undefined") {
 		
 		let userProfileIcon= document.createElement("a");
 		userProfileIcon.id="userProfileIcon";
-		userProfileIcon.classList.add("far","fa-user");
+		userProfileIcon.classList.add("fas","fa-user");
 		//userProfileIcon.href=sessionStorage.getItem("userprofilename");
 		userProfileIcon.backgroundcolor="white";
 		
@@ -374,18 +583,27 @@ using js session because model value is limited to one html page, js session can
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalheader"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal"  aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body" id="modalbody">
        </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" onClick="reloadPage()" data-dismiss="modal">Close and refresh page</button>
        </div>
     </div>
   </div>
 </div>
+ 
+ <script>
+ function reloadPage()
+ {
+	 
+ 	 location.reload();
+	 
+ }
+ </script>
  
  </div>
  
@@ -426,12 +644,106 @@ using js session because model value is limited to one html page, js session can
  
  
  
+ <!--  https://bootsnipp.com/snippets/2eMK5-->
+  <html th:fragment="footerBlack" xmlns:th="http://www.thymeleaf.org">
+  <footer class="section footer-classic context-dark bg-image" style="background: #2d3246;">
+        <div class="container">
+          <div class="row row-30">
+            <div class="col-md-4 col-xl-5">
+              <div class="pr-xl-4">
+              <br>
+              <h5> Korenani。</h5>
+               <!--  <p>We are an award-winning creative agency, dedicated to the best result in web design, promotion, business consulting, and marketing.</p> -->
+                <!-- Rights-->
+                
+                <p class="rights"><span> ©  </span><span class="copyright-year">2020</span><span> </span><span>Korenani</span><span>. </span><span>All Rights Reserved.</span></p>
+              </div>
+            </div>
+            <div class="col-md-4">
+            <br>
+              <h5>Contacts</h5>
+  <!--             <dl class="contact-list">
+                <dt>Address:</dt>
+                <dd>798 South Park Avenue, Jaipur, Raj</dd>
+              </dl> -->
+              <dl class="contact-list">
+                <dt>email:</dt>
+                <dd><a href="mailto:#">korenaniofficial@gmail.com</a></dd>
+              </dl>
+              <!-- <dl class="contact-list">
+                <dt>phones:</dt>
+                <dd> <a href="tel:#">+919896989274</a>
+                </dd>
+              </dl>
+ -->            </div>
+            <div class="col-md-4 col-xl-3">
+                        <br>
+            
+<!--               <h5>Links</h5>
+              
+              <ul class="nav-list">
+             
+             <li ><a href="#">About</a></li> -->
+               <!--  <li><a href="#">Projects</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contacts</a></li>
+                <li><a href="#">Pricing</a></li> -->
+             <!--  </ul> -->
+            </div>
+          </div>
+        </div>
+<!--         <div class="row no-gutters social-container">
+          <div class="col"><a class="social-inner" href="#"><span class="icon mdi mdi-facebook"></span><span>Facebook</span></a></div>
+          <div class="col"><a class="social-inner" href="#"><span class="icon mdi mdi-instagram"></span><span>instagram</span></a></div>
+          <div class="col"><a class="social-inner" href="#"><span class="icon mdi mdi-twitter"></span><span>twitter</span></a></div>
+          <div class="col"><a class="social-inner" href="#"><span class="icon mdi mdi-youtube-play"></span><span>google</span></a></div>
+        </div> -->
+        <br>
+      </footer>
+  
+  
+  
+  
+ </html>
  
  
  
+   <html th:fragment="footerForLandingPage" xmlns:th="http://www.thymeleaf.org">
+  <footer class="section footer-classic context-dark bg-image" style=" background-color: #3c3cf4">
+        <div class="container">
+          <div class="row row-30">
+            <div class="col-md-4 col-xl-5">
+              <div class="pr-xl-4">
+              <br>
+              <h5> Korenani。</h5>
  
+                
+                <p class="rights"><span> ©  </span><span class="copyright-year">2020</span><span> </span><span>Korenani</span><span>. </span><span>All Rights Reserved.</span></p>
+              </div>
+            </div>
+            <div class="col-md-4">
+            <br>
+              <h5>Contacts</h5>
  
+              <dl class="contact-list">
+                <dt>email:</dt>
+                <dd><a href="mailto:#">korenaniofficial@gmail.com</a></dd>
+              </dl>
+        <div class="col-md-4 col-xl-3">
+                        <br>
+            
  
+            </div>
+          </div>
+        </div>
+ </div>
+        <br>
+      </footer>
+  
+  
+  
+  
+ </html>
  
  
  

@@ -51,15 +51,11 @@ public class UserProfileController {
 	{
 		SignUpUserDetails signUpUserDetails= jpaSignUpRepository.getUserByUsername(username);
 		model.addAttribute("user",signUpUserDetails);
-		System.out.println(signUpUserDetails.getUserProfileName());
-		System.out.println(" U S E R  P R O F I L E in get "+username);
-
-		System.out.println("printing twoquestions");
+ 
 
 		//System.out.println(XQuestions.get(0).getTitle());
 		
-		System.out.println("printing twoquestions");
-		
+ 		
  		// getting qid,id,date from answer table
 		List<AnswerPagintationWrapperInterface> twoAnswers= answerRepository.getTwoAnswers(username);
 		
@@ -80,8 +76,7 @@ public class UserProfileController {
 		
 		SignUpUserDetails signUpUserDetails= jpaSignUpRepository.getUserByUsername(username);
 		model.addAttribute("user",signUpUserDetails);
-		System.out.println(signUpUserDetails.getUserProfileName());
-		System.out.println(" U S E R  P R O F I L E in get "+username);
+	 
 		
 		
 		
@@ -90,12 +85,10 @@ public class UserProfileController {
 //		ObjectMapper mapper = new ObjectMapper();
 //		String vString=mapper.writeValueAsString(questionRepository.getXQuestions(username, 5));
  		model.addAttribute("TwoQuestions",questionRepository.getTwoQuestions(username));
-		System.out.println("printing twoquestions");
-
+ 
 		//System.out.println(XQuestions.get(0).getTitle());
 		
-		System.out.println("printing twoquestions");
-		
+ 		
 		
 		// getting qid,id,date from answer table
 		//List<AnswerPagintationWrapperInterface> twoAnswers= answerRepository.getTwoAnswers(username);
@@ -115,9 +108,7 @@ public class UserProfileController {
 	@PostMapping("/view-more-questions")
 	public ResponseEntity<String> viewXQuestion(@RequestBody UserprofileNameAndPageNumberWrapper userprofileNameAndPageNumberWrapper) throws JsonProcessingException
 	{
-		System.out.println("userprofilename "+userprofileNameAndPageNumberWrapper.getUserprofilename());
-		
-		System.out.println("pagenumber "+ userprofileNameAndPageNumberWrapper.getPageNumber());
+		 
 		
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -142,28 +133,18 @@ public class UserProfileController {
 	{
 		// if user has entered a userprofilename which is already existing, then do not let them enter that userprofilename
 		
-		System.out.println(signUpUserDetails.getName());
-		System.out.println("--------=========----------");
-		System.out.println(signUpUserDetails.getUserProfileName());
-		System.out.println("--------=========----------");
-		System.out.println(signUpUserDetails.getUsername());
-		System.out.println("--------=========----------");
-		System.out.println(signUpUserDetails.getUserhomepagedata());
-	 		
-		System.out.println("R E Q U E S T M A D E ");
+		 
 		
 		
 		// checking if quill was updated or not, if it was updated then i will update all the fields, if not then only two fields will be updated
 		if(signUpUserDetails.getUserhomepagedata()!=null)
 		{
 			jpaSignUpRepository.updateAllUserDetailsByEmail(signUpUserDetails.getUserProfileName(), signUpUserDetails.getName(),signUpUserDetails.getUserhomepagedata(), signUpUserDetails.getUsername());
-			System.out.println("Quill updated");
-		}
+ 		}
 		else {
 		  
 			//updating user details
-			System.out.println("Quill not updated");
-
+ 
 		jpaSignUpRepository.updateUserDetailsByEmail(signUpUserDetails.getUserProfileName(), signUpUserDetails.getName(), signUpUserDetails.getUsername());
 		}
 			

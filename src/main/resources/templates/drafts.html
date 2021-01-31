@@ -31,13 +31,23 @@
  -->
 <div class="container">
 
+<br>
+	<div th:if="${draftData}">
 	<div th:each="draft: ${draftData}">
-	
-	topic<a th:text="${draft.topic}">	</a>
-	
-	description<a th:href="@{/creators/drafts/{id}(id = ${draft.id})}" th:text="${draft.description}"> </a>
- 	<hr>
+	<div >
+ <ul>
+ <li >
+  	<a th:text="${draft.topic}" th:href="@{/creators/drafts/{id}(id = ${draft.id})}">
+ 		</a>
+ </li>
+ </ul>
+
  	</div>
+ 	<hr>
+</div>
+	
+<!-- 	<h4>Description </h4><a th:href="@{/creators/drafts/{id}(id = ${draft.id})}" th:text="${draft.description}"> </a> -->
+  	</div>
 
 
 <!-- <tr th:each="student: ${students}">

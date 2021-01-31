@@ -17,17 +17,19 @@
 <body>
    <div th:replace="fragments/header :: CreatorsNavbar">
 </div>
-
-Authored by me
-
+<div class="container">
+<h3>Authored by me</h3>
+<hr>
 	<div th:each="content: ${contentData}">
 	
-	topic<a th:text="${content.topic}">	</a>
- 	description<a  th:text="${content.description}"> </a>
- 
-	 <a type="button" th:href="@{/creators/authored-by-me/edit/{id}(id = ${content.id})}" class="btn btn success"> Edit</a>
+	<a th:text="${content.topic}">	</a>
+	
+  <a type="button" th:href="@{/creators/authored-by-me/edit/{id}(id = ${content.id})}" class="btn btn-link">
+    <i class="fas fa-edit"></i>
+  
+   Edit</a>
  	<hr>
  	</div>
-
+</div>
 </body>
 </html>

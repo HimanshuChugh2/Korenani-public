@@ -55,22 +55,18 @@ public class ClapController {
 	@PostMapping(value = "add-clap-question")
 	public ResponseEntity<String> AddClapost(@RequestBody Integer qid,@AuthenticationPrincipal OAuth2User principal,  Model model)
 	{
-		   System.out.println("POST REQUEST MADE "+qid);
-		
+ 		
 		   
 		   //---------------Getting Username---------------------
 		   String email="";
-		   System.out.println("getLoggedInUserName "+ getLoggedInUserName().length());
-		   
+ 		   
 			if(principal!=null)
 			{
-			System.out.println(" A T T R I B U T  E "+principal.getAttribute("email").toString());
-			email=principal.getAttribute("email").toString();
+ 			email=principal.getAttribute("email").toString();
 			}
 			else if(getLoggedInUserName()!=null)
 			{
-				System.out.println(" L  O G G E D I N U S E R  N A M E I  S "+getLoggedInUserName());	
-				email=getLoggedInUserName();
+ 				email=getLoggedInUserName();
 	  		}
 		 
 			
@@ -81,8 +77,7 @@ public class ClapController {
 			
 		//------------checking if user has clapped in past 24 hours----------------
 		    String datetimeRecorded=clapsQuesstionRepo.getDatetimeOfQuestionClapByUserProfileNameAndQid(qid, email);
-			System.out.println("------------datetime recorded "+datetimeRecorded);
-			if(datetimeRecorded!=null)
+ 			if(datetimeRecorded!=null)
 			{
 				// if datetimeRecorded is not null that means that user has already clapped on this, and so he will be updating the date 
 				DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -91,9 +86,8 @@ public class ClapController {
 			if(datetimeparsed.plusHours(24).isAfter(LocalDateTime.now()))
 			{
 				
-				System.out.println(" I S A F T E R ");
-				model.addAttribute("clapbeforetimeerror","Thank you for your feedback, But you can only clap once in 24 hours");
-				 return new ResponseEntity<>("Thank you for your feedback, But you can only clap once in 24 hours", 
+ 				model.addAttribute("clapbeforetimeerror","Thank you for your feedback, But you can only react once in 24 hours");
+				 return new ResponseEntity<>("Thank you for your feedback, But you can only react once in 24 hours", 
 						   HttpStatus.INTERNAL_SERVER_ERROR);
 				 
 			}
@@ -103,10 +97,7 @@ public class ClapController {
 				DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 				LocalDateTime now = LocalDateTime.now();
 				clapsQuesstionRepo.updateClapsByQid(qid, email,dtf2.format(now));
-				System.out.println("E X I S T I N G "+ qid);
-				System.out.println("------------datetime parsed "+datetimeparsed);
-				System.out.println("------------datetime now "+LocalDateTime.now());
-				 return new ResponseEntity<>("Thank you for your feedback", 
+				 		 return new ResponseEntity<>("Thank you for your feedback", 
 						   HttpStatus.OK);	
 			}
 			}
@@ -122,8 +113,7 @@ public class ClapController {
 				DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 				LocalDateTime now = LocalDateTime.now();
 				newclap.setDatetime(dtf2.format(now));
-				System.out.println("dtf.format(now)) "+dtf2.format(now));
-				clapsQuesstionRepo.save(newclap);
+ 				clapsQuesstionRepo.save(newclap);
 				 return new ResponseEntity<>("Thank you for your feedback", 
 						   HttpStatus.OK);	
 			}
@@ -178,25 +168,21 @@ public class ClapController {
 		
 		
 			String email="";
-		   System.out.println("getLoggedInUserName "+ getLoggedInUserName().length());
-		   
+ 		   
 			if(principal!=null)
 			{
-			System.out.println(" A T T R I B U T  E "+principal.getAttribute("email").toString());
-			email=principal.getAttribute("email").toString();
+ 			email=principal.getAttribute("email").toString();
 			}
 			else if(getLoggedInUserName()!=null)
 			{
-				System.out.println(" L  O G G E D I N U S E R  N A M E I  S "+getLoggedInUserName());	
-				email=getLoggedInUserName();
+ 				email=getLoggedInUserName();
 	  		}
 		 
 			
 			
 			//----------------checking if user has clapped in past 24 hours--------------------
 		    String datetimeRecorded=clapsAnswerRepo.getDatetimeOfAnswerClapByUserProfilenameAndAid(aid, email);
-			System.out.println("------------datetime recorded "+datetimeRecorded);
-			if(datetimeRecorded!=null)
+ 			if(datetimeRecorded!=null)
 			{
 				// if datetimeRecorded is not null that means that user has already clapped on this, and so he will be updating the date 
 				DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -205,9 +191,8 @@ public class ClapController {
 			if(datetimeparsed.plusHours(24).isAfter(LocalDateTime.now()))
 			{
 				
-				System.out.println(" I S A F T E R ");
-				model.addAttribute("clapbeforetimeerror","Thank you for your feedback, But you can only clap once in 24 hours");
-				 return new ResponseEntity<>("Thank you for your feedback, But you can only clap once in 24 hours", 
+ 				model.addAttribute("clapbeforetimeerror","Thank you for your feedback, But you can only react once in 24 hours");
+				 return new ResponseEntity<>("Thank you for your feedback, But you can only react once in 24 hours", 
 						   HttpStatus.INTERNAL_SERVER_ERROR);
 				 
 			}
@@ -217,10 +202,7 @@ public class ClapController {
 				DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 				LocalDateTime now = LocalDateTime.now();
 				clapsAnswerRepo.updateClapsByAid(aid, email,dtf2.format(now));
-				System.out.println("E X I S T I N G "+ aid);
-				System.out.println("------------datetime parsed "+datetimeparsed);
-				System.out.println("------------datetime now "+LocalDateTime.now());
-				 return new ResponseEntity<>("Thank you for your feedback", 
+			 		 return new ResponseEntity<>("Thank you for your feedback", 
 						   HttpStatus.OK);	
 			}
 			}
@@ -237,8 +219,7 @@ public class ClapController {
 				DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 				LocalDateTime now = LocalDateTime.now();
 				newclap.setDatetime(dtf2.format(now));
-				System.out.println("dtf.format(now)) "+dtf2.format(now));
-				clapsAnswerRepo.save(newclap);
+ 				clapsAnswerRepo.save(newclap);
 				return new ResponseEntity<>("Thank you for your feedback", 
 						   HttpStatus.OK);
 			}
@@ -320,25 +301,21 @@ public class ClapController {
 		
 		
 		   String email="";
-		   System.out.println("getLoggedInUserName "+ getLoggedInUserName().length());
-		   
+ 		   
 			if(principal!=null)
 			{
-			System.out.println(" A T T R I B U T  E "+principal.getAttribute("email").toString());
-			email=principal.getAttribute("email").toString();
+ 			email=principal.getAttribute("email").toString();
 			}
 			else if(getLoggedInUserName()!=null)
 			{
-				System.out.println(" L O G G E D I N U S E R  N A M E I  S "+getLoggedInUserName());	
-				email=getLoggedInUserName();
+ 				email=getLoggedInUserName();
 	  		}
 			
 			
 			//left here 25/sept
 			//------------checking if user has clapped in past 24 hours----------------
 			    String datetimeRecorded=dislikesQuestionRepo.getDatetimeOfQuestionDislikesByUserPriflieNameAndQid(qid, email);
-				System.out.println("------------datetime recorded "+datetimeRecorded);
-				if(datetimeRecorded!=null)
+ 				if(datetimeRecorded!=null)
 				{
 					// if datetimeRecorded is not null that means that user has already clapped on this, and so he will be updating the date 
 					DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -347,9 +324,8 @@ public class ClapController {
 				if(datetimeparsed.plusHours(24).isAfter(LocalDateTime.now()))
 				{
 					
-					System.out.println(" I S A F T E R ");
-					model.addAttribute("clapbeforetimeerror","Thank you for your feedback, But you can only clap once in 24 hours");
-					 return new ResponseEntity<>("Thank you for your feedback, But you can only clap once in 24 hours", 
+ 					model.addAttribute("clapbeforetimeerror","Thank you for your feedback, But you can only react once in 24 hours");
+					 return new ResponseEntity<>("Thank you for your feedback, But you can only react once in 24 hours", 
 							   HttpStatus.INTERNAL_SERVER_ERROR);
 					 
 				}
@@ -359,10 +335,7 @@ public class ClapController {
 					DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 					LocalDateTime now = LocalDateTime.now();
 					dislikesQuestionRepo.updateDislikesByQid(qid, email,dtf2.format(now));
-					System.out.println("E X I S T I N G "+ qid);
-					System.out.println("------------datetime parsed "+datetimeparsed);
-					System.out.println("------------datetime now "+LocalDateTime.now());
-					 return new ResponseEntity<>("Thank you for your feedback", 
+			 		 return new ResponseEntity<>("Thank you for your feedback", 
 							   HttpStatus.OK);	
 				}
 				}
@@ -378,8 +351,7 @@ public class ClapController {
 					DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 					LocalDateTime now = LocalDateTime.now();
 					newDislike.setDatetime(dtf2.format(now));
-					System.out.println("dtf.format(now)) "+dtf2.format(now));
-					dislikesQuestionRepo.save(newDislike);
+ 					dislikesQuestionRepo.save(newDislike);
 					 return new ResponseEntity<>("Thank you for your feedback", 
 							   HttpStatus.OK);	
 				}
@@ -392,17 +364,14 @@ public class ClapController {
 		
 		
 		   String email="";
-		   System.out.println("getLoggedInUserName "+ getLoggedInUserName().length());
-		   
+ 		   
 			if(principal!=null)
 			{
-			System.out.println(" A T T R I B U T  E "+principal.getAttribute("email").toString());
-			email=principal.getAttribute("email").toString();
+ 			email=principal.getAttribute("email").toString();
 			}
 			else if(getLoggedInUserName()!=null)
 			{
-				System.out.println(" L  O G G E D I N U S E R  N A M E I  S "+getLoggedInUserName());	
-				email=getLoggedInUserName();
+ 				email=getLoggedInUserName();
 	  		}
 		 
 			
@@ -423,8 +392,7 @@ public class ClapController {
 			
 			//----------------checking if user has clapped in past 24 hours--------------------
 		    String datetimeRecorded=dislikesAnswerRepo.getDatetimeOfAnswerDislikesByUserPrifileNameAndAid(aid, email);
-			System.out.println("------------datetime recorded "+datetimeRecorded);
-			if(datetimeRecorded!=null)
+ 			if(datetimeRecorded!=null)
 			{
 				// if datetimeRecorded is not null that means that user has already clapped on this, and so he will be updating the date 
 				DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -433,9 +401,8 @@ public class ClapController {
 			if(datetimeparsed.plusHours(24).isAfter(LocalDateTime.now()))
 			{
 				
-				System.out.println(" I S A F T E R ");
-				model.addAttribute("clapbeforetimeerror","Thank you for your feedback, But you can only clap once in 24 hours");
-				 return new ResponseEntity<>("Thank you for your feedback, But you can only clap once in 24 hours", 
+ 				model.addAttribute("clapbeforetimeerror","Thank you for your feedback, But you can only react once in 24 hours");
+				 return new ResponseEntity<>("Thank you for your feedback, But you can only react once in 24 hours", 
 						   HttpStatus.INTERNAL_SERVER_ERROR);
 				 
 			}
@@ -445,10 +412,7 @@ public class ClapController {
 				DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 				LocalDateTime now = LocalDateTime.now();
 				dislikesAnswerRepo.updateDislikesByAid(aid, email,dtf2.format(now));
-				System.out.println("E X I S T I N G "+ aid);
-				System.out.println("------------datetime parsed "+datetimeparsed);
-				System.out.println("------------datetime now "+LocalDateTime.now());
-				 return new ResponseEntity<>("Thank you for your feedback", 
+			 	 return new ResponseEntity<>("Thank you for your feedback", 
 						   HttpStatus.OK);	
 			}
 			}
@@ -465,8 +429,7 @@ public class ClapController {
 				DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 				LocalDateTime now = LocalDateTime.now();
 				newDislike.setDatetime(dtf2.format(now));
-				System.out.println("dtf.format(now)) "+dtf2.format(now));
-				dislikesAnswerRepo.save(newDislike);
+ 				dislikesAnswerRepo.save(newDislike);
 				return new ResponseEntity<>("Thank you for your feedback", 
 						   HttpStatus.OK);
 			} 

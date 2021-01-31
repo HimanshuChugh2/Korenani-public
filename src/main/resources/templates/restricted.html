@@ -19,10 +19,18 @@
 
 </div>
 
-  <h1> Hello Restricted</h1>
-<div th:if="${emailverified}" class="alert alert-success">
+  <h1></h1>
+<div   class="alert alert-primary m-5" style="width:400px;">
 <h4> Information</h4>
-<span th:text="${emailverified}"></span>
+<hr>
+<span>Login Successful !</span>
+<br><br>
+<span> Your email address <b><span th:text="${email}"></span></b> is saved.</span>
+<br><br>
+<span> Your system generated username is <b><span th:text="${user_profile_name}"></span></b>, however you can change it anytime.</span>
+<i class="far fa-laugh-wink fa-2x"></i>
+
+
 </div>
 
 

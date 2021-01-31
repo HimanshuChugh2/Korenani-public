@@ -1,5 +1,7 @@
 package jp.korenani.korenani.entities;
 
+import java.util.HashMap;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,7 +10,7 @@ import javax.persistence.Lob;
 
 @Entity
 public class Answer {
-	@Id
+	@Id	
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	@Lob
@@ -16,10 +18,10 @@ public class Answer {
 	private int qid;
 	private String date;
 	private String userprofilename;
-	
 
 	
 	public Answer() {
+		
 		super();
 		// TODO Auto-generated constructor stub
 	}

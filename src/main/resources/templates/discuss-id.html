@@ -52,8 +52,8 @@
  <div class="col-md-6">
   <div th:object="${questiondata}">
  
- 
-  <h2 th:text="*{title}"> </h2>
+  <h1 th:text="*{title}"></h1>
+  <br>
   
   <input type="text" th:field="*{data}" id="data"  style="display:none"/>
   <span th:field="*{id}" th:text="*{id}" id="qid" style="display:none"></span>
@@ -64,39 +64,43 @@
 </div>
   
   <div class="row"> 
-    <div class="col">
-    	<img th:src="@{/images/user.png}" style="width:100%;height:100%;" class="form-control border-nashi" /> 
-   </div>
+  
   
   <div class="col">
- 		<span th:text="*{userprofilename}"  class="form-control border-nashi"></span>
+  
+  <span class="fas fa-user fa-2x border-nashi"></span><br>
+  
+  <span th:text="*{userprofilename}"  class="border-nashi"></span>
   </div>
  
    <div class="col"> 
- 		<span th:text= "*{date}" class="form-control border-nashi date"></span>
+   <i class="fas fa-clock fa-2x"></i><br>
+   <span th:text= "*{date}" class="border-nashi date"></span>
    </div>
    
          <div class="col">  
           <a id="givenroseanchor">
-      
-   <span class="form-control border-nashi far fa-thumbs-up fa-2x" id="givenrose"> </span>
+       
+   <i class="border-nashi far fa-thumbs-up fa-2x" id="givenrose"> </i><br>
      Likes: <span id="questionclapcount" th:object="${clapofquestion}" th:text="${clapofquestion}"></span>
    
    </a>
    </div>
    
      <div class="col">
-     <span class=" form-control border-nashi far fa-thumbs-down fa-2x" id="dislikeButton"></span>
+     <span class="border-nashi far fa-thumbs-down fa-2x" id="dislikeButton"></span><br>
      Dislikes: <span id="dislikescountofquestion" th:object="${dislikescountofquestion}" th:text="${dislikescountofquestion}"></span>
      
        
      </div>
-          <div class="col">
+<!--           <div class="col">
+     <i class="fas fa-share" style="color:pink"></i>
+
      
-     <div class=" form-control border-nashi fas fa-share fa-2x" style="color:pink"> </div>
+     <div class=" form-control border-nashi fas fa-share" style="color:pink"> </div>
      Share
-</div>
-     
+</div> -->
+     	
 
    </div>
    </div>
@@ -104,6 +108,7 @@
   <hr>
   
   <h2 id="countOfTotalAnswers"></h2>
+  <hr>
   <div id="a">
 
   <input type="text" th:object="${answerdata}" id="divans" th:value="${answerdata}" style="display:none">
@@ -122,6 +127,7 @@
   </div>
      <div>
   <h2> Write an Answer</h2>
+  <br>
  <div id="editor" class="form-group" style="min-height:300px;">
 </div>
 <br>
@@ -148,6 +154,8 @@
   
 
 </div>
+<div id="footer" th:replace="fragments/header :: footerBlack">
+   </div>
     <script type="text/javascript" th:src="@{/javascript/QuillContainerReadOnly.js}"></script>
        <script type="text/javascript" th:src="@{/javascript/QuillContainer.js}"></script>
     
@@ -193,12 +201,20 @@
 		userProfileNamediv.innerText=parsedAnswers[i].userprofilename;
 		userProfileNamediv.classList.add("date");	//applying bootstrap class
 		
+		
+		var clockIcon = document.createElement("i");
+		clockIcon.classList.add("fas", "fa-clock");
+		clockIcon.id="clockIcon";
 		//creating date div
 		var datediv = document.createElement("div");
 		var datedivid = "datediv"+i;
+		datediv.appendChild(clockIcon);
+
 		datediv.id=datedivid;
 		datediv.innerText=parsedAnswers[i].date;
 		datediv.classList.add("date");
+		datediv.appendChild(clockIcon);
+
 		
 		
 		
@@ -532,26 +548,39 @@
  </script>
  
  
-	   <script>
- 	   document.querySelector("img").style.height="100%";
-	   document.querySelector("img").style.width="100%"; 
- 	   </script>
+ 
 	   
 	   
 	   <script>
-    $("#post").click(function(){
+	   $("#post").click(function(){
  		var AnswerAdded={};
  		AnswerAdded["qid"]= $("#qid").text();
  		AnswerAdded["data"] = JSON.stringify(quill.getContents());
     		/* alert(JSON.stringify(questionResponse)); */
- 		$.ajax({
- 		type : "POST", 
+ 	 	var request=	$.ajax({
+ 		type : "POST",
  		contentType : "application/json; charset=UTF-8",
  		url : "add-answer", 
  		data : JSON.stringify(AnswerAdded),
  		dataType : 'json',	
  
  		});
+    		
+    		
+		 request.done(function( msg ) {
+				//alert(msg);
+				alert("posted answer")
+
+				});
+		 
+ 		
+		 request.always(function( msg ) {
+				//alert(msg);
+ 				location.reload();
+ 				
+ 				});
+ 
+
  		});  
 
     </script>

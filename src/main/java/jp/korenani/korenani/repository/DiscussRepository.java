@@ -11,7 +11,7 @@ import jp.korenani.korenani.entities.Question;
 @Repository
 public interface DiscussRepository extends JpaRepository<Question, Integer> {
 
-	@Query(value="select id,title,tags,date,userprofilename from question",nativeQuery = true)
-	public List<Object[]> getalldata();
+	@Query(value="select id,title,tags,date,userprofilename from question order by date desc",nativeQuery = true)
+	public List<Object[]> getalldataSortByDate();
 	
 }

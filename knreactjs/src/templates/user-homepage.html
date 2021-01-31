@@ -1,0 +1,312 @@
+<!doctype html>
+	<html lang="en" xmlns:th="http://www.thymeleaf.org">  
+	<head>
+	    <meta charset="utf-8"/>
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	    <title>Demo</title>
+	    <meta name="description" content=""/>
+	    <meta name="viewport" content="width=device-width"/>
+	    <base href="/"/>
+	    
+	      <!-- Main Quill library -->
+	 
+	<!-- Theme included stylesheets -->
+	 
+	<link href="/mystylesheet.css" th:href="@{css/modalpopup.css}"  rel="stylesheet"  type="text/css">
+	 	<link href="/mystylesheet.css" th:href="@{css/imagediting.css}"  rel="stylesheet"  type="text/css">
+	  
+	<head th:replace="fragments/header :: headHeader">
+	</head>
+	<head th:replace="fragments/header :: quillScriptFiles">
+</head>
+	<body>
+	   <div th:replace="fragments/header :: navUserHomepage">
+	</div>
+
+   <div th:replace="fragments/header :: modalShowX">
+ </div>
+ 
+<div class="container-fluid">
+<div id="editor" class="form-group border-0">
+   
+</div>
+ 
+<div id="toolbar" class="form-group">
+</div>
+
+
+<hr>
+<span id="XQuestions" th:text="${XQuestions}"> </span>
+
+<!-- User details related code -->
+<div th:object="${user}" style="max-width:500px;" >
+	
+	
+<!-- 	 design https://getbootstrap.com/docs/4.3/components/forms/#form-grid
+ -->	
+ 	<span id="userhomepagedata" th:field="*{userhomepagedata}"></span>
+ 
+ 		<div class="form-group row">  		 	 
+ 		 	 <label for="username" class="col-3 col-form-label border-nashi" > Username</label>
+ 	 		 <div class="col-9">
+ 				 <span  id="username" class="form-control border-nashi" th:text="*{userProfileName}"></span>
+			 </div>
+ 	   	</div>
+	
+	 
+ 		<div class="form-group row">
+
+	 
+	   	<label for="name_of_user" class="col-3 col-form-label border-nashi">Name</label>   
+	   	
+	   	 <div class="col-9">
+	   	 <span  id="name_of_user" class="form-control border-nashi col-xs-8" th:text="*{name}"></span>
+	   	</div>
+ 	   	</div>
+ 		
+	   	
+ 		
+ 		
+ 		
+ 		
+  	   
+	</div>
+	
+	
+	
+		<div style="max-width:600px">
+
+	<div class="row no-gutters">
+
+	<h3> Contribution to the Korenani Community</h3></div>
+
+	 	<hr>
+
+	
+
+	</div>
+<br><br><br><br>
+	
+	<span id="TwoQuestions" th:value="${TwoQuestions}"></span>
+ 	  
+	 <div class="border">
+	 <h4 class="d-flex justify-content-center"> Questions</h4>
+
+	  <div th:each= "TwoQuestions : ${TwoQuestions}">
+	  	<a class="btn btn-link" th:text="${TwoQuestions.title}" th:href="@{/discuss/{id}(id = ${TwoQuestions.id})}">  </a>
+	  </div>
+		<a class="btn btn-link" href="question/view-more" id="view-more-questions" data-toggle="modal" data-target="#modalShowXTitle">More.. </a>
+
+	 </div>
+
+	 </div>
+
+	 	<hr>
+
+	  <div  id="answersdiv">
+	 <h4 class="d-flex justify-content-center" id="answers" > Answers</h4>
+	 
+	  <hr>
+
+
+
+
+
+
+	 </div>
+
+	 <hr>
+
+	  <div>
+	 <h4 class="d-flex justify-content-center"> Courses</h4>
+	  </div>
+	 <br>
+
+	 <a href="/hello" id="hello" data-toggle="modal" data-target="#modalShowXTitle"> click here</a>
+<hr>
+ 
+	<!-- User details related code -->
+ 
+	<script>
+	
+	
+	 $("#view-more-questions").click(function(){
+		    var username=$("#username").text();
+	  		var pageNumber=0;
+			var UserprofileNameAndPageNumber = {};
+			UserprofileNameAndPageNumber["pageNumber"] = pageNumber;
+			UserprofileNameAndPageNumber["userprofilename"]= username;
+			
+		 
+			console.log(" stringify -- "+JSON.stringify(UserprofileNameAndPageNumber));	
+
+		 		 var request=$.ajax({
+
+			 		type : "POST", 
+			 		contentType : "application/json; charset=UTF-8",
+			 		url : username+"/view-more-questions",
+			 		data : JSON.stringify(UserprofileNameAndPageNumber),
+			 		dataType: 'text',
+			 		 
+			 		});
+	 
+	 			 request.done(function( msg,jqXHR ) {
+				//alert(msg);
+				console.log(msg+ " - - "+ jqXHR)
+				document.getElementById("XQuestions").innerText=msg;
+				//console.log("data "+ "[[${XQuestions}]]")
+				
+				// when result is received will create html elements and put the results into them
+				
+				var parsedQuestions= JSON.parse(msg);
+				
+				for(var i=0;i<parsedQuestions.length;i++)
+					{
+					
+						var titleDiv=document.createElement("div");
+						var title= document.createElement("a");
+						title.innerText=parsedQuestions[i].title;  
+						title.href="discuss/"+parsedQuestions[i].id;
+						titleDiv.appendChild(title);
+						document.getElementById("modalbody").appendChild(titleDiv);
+					}
+ 				
+	 
+
+				
+				
+				
+				
+				
+	 			});
+				request.always(function(msg) {
+					 //console.log("always "+msg)
+					 console.log("always")
+					});
+				 
+				  request.fail(function(jqXHR, textStatus) {
+					  console.log("failed"+textStatus);
+					  alert(jqXHR.responseText);
+					});
+			
+	 		
+		 
+		 
+		 
+		/*    var TwoQuestions= document.getElementById("TwoQuestions");
+		 
+		 
+		 
+		    var modal = document.getElementById("modalShowXTitle");
+			modal.style.display = "block";
+
+			document.getElementById("modalbody").innerText="Article submitted successfully, Thank you for your time and effort.";
+			document.getElementById("modalheader").innerText= "Information";
+
+		 		
+			var span = document.getElementsByClassName("close")[0];
+
+		 // When the user clicks on <span> (x), close the modal
+			span.onclick = function() {
+			  modal.style.display = "none";
+			}
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event) {
+			  if (event.target == modal) {
+			    modal.style.display = "none";
+			  }
+			}	  */
+	 	});
+		
+	
+	 
+	 
+	 
+	 
+
+	</script>
+	 
+
+
+   <script type="text/javascript" th:src="@{/javascript/QuillContainer.js}">
+    </script>
+	
+	
+	<script>
+	 	  
+		
+	
+	  const targetNode = document.getElementById('editor');
+
+	 //Options for the observer (which mutations to observe)
+	 const config = { attributes: true, childList: true, subtree: true };
+
+	 //Callback function to execute when mutations are observed
+	 const callback = function(mutationsList, observer) {
+	   // Use traditional 'for loops' for IE 11
+	   for(let mutation of mutationsList) {
+	 /*       if (mutation.type === 'childList') {
+	           console.log('A child node has been added or removed.');
+	           
+	           
+	           
+	       }
+	       else if (mutation.type === 'attributes') {
+	           console.log('The ' + mutation.attributeName + ' attribute was modified.');
+	       } */
+	       
+	       
+	 	  window.delta= quill.getContents();
+	  	  /* document.getElementById("data").value=  JSON.stringify(quill.getContents()); */
+	  	  
+	/*    	   document.querySelector("img").style.height="80%";
+	  	   document.querySelector("img").style.width="80%";  */
+	  	 // console.log("saved");
+	       
+	   }
+	 };
+
+	 //Create an observer instance linked to the callback function
+	 const observer = new MutationObserver(callback);
+
+	 //Start observing the target node for configured mutations
+	 observer.observe(targetNode, config);
+	   quill.theme="bubble";
+
+	   quill.disable();
+
+		//getting the quill toolbar by class name because getting by id wont work
+		var quillToolbar= document.querySelectorAll('.ql-toolbar,.ql-snow');	
+		quillToolbar[0].style.display="none";
+	</script>
+	
+	<script>
+// when user clicks on edit button then show the quill toolbar and make quill wrtieable, otherwise the toolbar will be hidden and quill will be readonly
+	
+ 
+	
+	
+	
+	 
+	</script>
+	
+	
+	<script>
+	//setting the quill to existing data
+	
+	 
+	quill.setContents(JSON.parse(document.getElementById("userhomepagedata").getAttribute("field")));
+
+</script>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+	
+	
+	
+	
+
+</body>
+</html>

@@ -19,11 +19,13 @@
 	<head th:replace="fragments/header :: quillScriptFiles">
 </head>
  	<body>
-	   <div th:replace="fragments/header :: navUserHomepage">
+	   <div th:replace="fragments/header :: navForViewer">
 	</div>
 
-<div class="container-fluid">
-<div id="editor" class="form-group ">
+<div class="container mt-5 shadow" style="max-width:600px">
+<h3 style="text-align:center" class="p-2">Your profile</h3>
+<hr>
+<div id="editor" class="form-group " style="max-width:600px">
    
 </div>
  
@@ -35,7 +37,7 @@
 
 
 <!-- User details related code -->
-<div th:object="${user}" style="max-width:500px">
+<div th:object="${user}" style="max-width:500px" >
 	
 	
 <!-- 	 design https://getbootstrap.com/docs/4.3/components/forms/#form-grid
@@ -96,41 +98,39 @@
 	<hr>
 	<div style="max-width:600px">
 
-	<div class="row no-gutters">
-	
+	<div>
+	<br>
 	<h3> Contribution to the Korenani Community</h3></div>
 	
 	 	<hr>
 	 
-	 <div class="border">
+	 <div class="border m-3">
 	 <h4 class="d-flex justify-content-center"> Questions</h4> 
 	  
-	  <div th:each= "XQuestions : ${XQuestions}">
+<!-- 	  <div th:each= "XQuestions : ${XQuestions}">
 	  	<a  th:text="${XQuestions.title}" th:href="@{/discuss/{id}(id = ${XQuestions.id})}">  </a>
-	  </div>
+	  </div> -->
 	 
  
 	 </div>
 	 
 	 </div>
 	 
-	 	<hr>
-	 
-	  <div  id="answersdiv">
+ 	 <div style="max-width:600px">
+	  <div  id="answersdiv" class="border m-3">
 	 <h4 class=" d-flex justify-content-center" id="answers" > Answers</h4> 
 	 </div>
-	 
-	 <hr>
-	 
-	  <div>
+	 </div>
+ 	 <div style="max-width:600px">
+	  <div class="border m-3">
 	 <h4 class="d-flex justify-content-center"> Courses</h4>
 	  </div>
 	 <br> 
 	 
-	 <a href="/hello" id="hello"> click here</a>
-	 
+<!-- 	 <a href="/hello" id="hello"> click here</a>
+ -->	 
 	</div>
-	
+	</div>
 	<!-- User details related code -->
 	 <script>
 	
@@ -324,15 +324,15 @@
 	//create a button which lets edit the homepage, only if the user who is seeeing the page is the user who created it
 	var newEditButton=document.createElement("span");
 	newEditButton.id="editButton";
-	newEditButton.classList.add("far", "fa-edit");
+	newEditButton.classList.add("far", "fa-edit", "fa-2x");
  
 
 	
 	
-	
-	document.getElementById("editor").appendChild(newEditButton);
+	document.getElementById("editor").appendChild(document.createElement("br"));
 
-	//make ajax post request to UPDATE  the sign_up table, now the sign up table will contain the userhomepagedata updated;
+	document.getElementById("editor").appendChild(newEditButton);
+ 	//make ajax post request to UPDATE  the sign_up table, now the sign up table will contain the userhomepagedata updated;
 	
 	
 	 $("#editButton").click(function(){
