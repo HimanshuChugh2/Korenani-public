@@ -65,7 +65,7 @@ import jp.korenani.korenani.repository.JPASignUpRepository;
 	                .logoutSuccessUrl("/").permitAll()
 	             )
             .authorizeRequests(a -> a
-						.antMatchers("/", /* "/error", */ "/webjars/**", /* "/error-pages/**", */"/signup","/user", "/accessible","/enter-existing-password","/showit","/css/style.css","/index").permitAll()
+                .antMatchers("/", "/error", "/webjars/**","/error-pages/**","/signup","/user", "/accessible","/enter-existing-password","/showit","/css/style.css","/index").permitAll()
                 .anyRequest().authenticated()
             )
 				/*
