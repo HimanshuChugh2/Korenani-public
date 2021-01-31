@@ -15,20 +15,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FolderRepository extends JpaRepository<CreatedFolder, Integer> {
 
-	@Query(value="select DISTINCT foldername from korenani.created_folder   where  username = :username" ,nativeQuery = true)
+	@Query(value="select DISTINCT foldername from created_folder   where  username = :username" ,nativeQuery = true)
 	public List<Object[]> getAllFoldersByUsername (@Param("username") String username);
 	
 	
 	
-	@Query(value="select contentid from korenani.created_folder where foldername = :foldername and username = :username", nativeQuery = true)
+	@Query(value="select contentid from created_folder where foldername = :foldername and username = :username", nativeQuery = true)
 	public List<Integer> getContentIdByFoldername(@Param("foldername") String foldername,@Param("username") String username);
 	
-	@Query(value="select * from korenani.created_folder where contentid in :list and foldername= :foldername ", nativeQuery = true)
+	@Query(value="select * from created_folder where contentid in :list and foldername= :foldername ", nativeQuery = true)
 	public List<CreatedFolder> getCCdataSubQuery(@Param("list") List<Integer> list, @Param("foldername") String foldername);
 	
 	@Transactional
 	@Modifying
-	@Query(value="delete from korenani.created_folder where contentid in :array", nativeQuery = true)
+	@Query(value="delete from created_folder where contentid in :array", nativeQuery = true)
 	public void deleteExistingContentByArray(@Param("array") Integer[] array);
 	
 	

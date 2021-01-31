@@ -20,7 +20,7 @@ public interface AnswerRepository extends JpaRepository<Answer, Integer> {
 	
 
 
-	@Query(value="select qid, date, id from korenani.answer where userprofilename = :userprofilename ORDER BY date desc limit 2", nativeQuery = true)
+	@Query(value="select qid, date, id from answer where userprofilename = :userprofilename ORDER BY date desc limit 2", nativeQuery = true)
 	public List<AnswerPagintationWrapperInterface> getTwoAnswers(@Param("userprofilename") String userprofilename);
 	
 	 

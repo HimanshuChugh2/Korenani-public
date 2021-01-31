@@ -20,10 +20,10 @@ public interface JPASignUpRepository extends JpaRepository<SignUpUserDetails,Int
 	Optional<SignUpUserDetails> findByUsername(String username);
 	
 	
-	@Query(value="select exists (select user_profile_name from korenani.sign_up where user_profile_name= :user_profile_name);" ,nativeQuery = true)
+	@Query(value="select exists (select user_profile_name from sign_up where user_profile_name= :user_profile_name);" ,nativeQuery = true)
 	public Integer isUserProfileNameExisting(@Param("user_profile_name") String user_profile_name);
 	 
-	@Query(value = "select user_profile_name from korenani.sign_up where username = :username", nativeQuery = true)
+	@Query(value = "select user_profile_name from sign_up where username = :username", nativeQuery = true)
 	public Optional<String> getUserProfileNameByUsername(@Param("username") String username);
 	
  

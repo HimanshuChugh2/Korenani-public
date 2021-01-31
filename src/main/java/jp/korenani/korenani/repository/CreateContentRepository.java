@@ -32,11 +32,11 @@ public interface CreateContentRepository extends JpaRepository<CreateContent,Int
 
 	@Transactional
 	@Modifying
-	@Query(value="update korenani.create_content set id = :id , data = :data, description= :description ,keywords=:keywords ,level= :level , topic = :topic, username = :username where id = :id", nativeQuery = true)
+	@Query(value="update create_content set id = :id , data = :data, description= :description ,keywords=:keywords ,level= :level , topic = :topic, username = :username where id = :id", nativeQuery = true)
 	public void updateContentById(@Param("id") int id, @Param("data") String data, @Param("description") String description, @Param("keywords") String keywords, @Param("level") String level, @Param("topic") String topic, @Param("username") String username);
 	
 	
-	@Query(value="select topic, id from korenani.create_content where id in :list", nativeQuery = true)
+	@Query(value="select topic, id from create_content where id in :list", nativeQuery = true)
 	public List<Object[]> getTopicById(@Param("list") List<Integer> list);
 	
 	

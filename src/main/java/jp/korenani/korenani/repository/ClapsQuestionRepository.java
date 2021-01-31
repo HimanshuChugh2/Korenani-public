@@ -12,21 +12,21 @@ import jp.korenani.korenani.entities.ClapsOfQuestion;
 @Repository
 public interface ClapsQuestionRepository  extends JpaRepository<ClapsOfQuestion, Integer> {
 
-	@Query(value="select exists (select * from korenani.claps_of_question  where  qid=:qid and userprofilename= :userprofilename);",nativeQuery = true)
+	@Query(value="select exists (select * from claps_of_question  where  qid=:qid and userprofilename= :userprofilename);",nativeQuery = true)
 	public Integer isClapsAlreayExistingForQuestion(@Param("qid") Integer qid, @Param("userprofilename") String userprofilename);
 	
 	
-	@Query(value = "update korenani.claps_of_question set claps = claps+1, datetime= :datetime where qid= :qid and userprofilename= :userprofilename" ,nativeQuery = true)
+	@Query(value = "update claps_of_question set claps = claps+1, datetime= :datetime where qid= :qid and userprofilename= :userprofilename" ,nativeQuery = true)
 	@Transactional
 	@Modifying
 	public void updateClapsByQid(@Param("qid") Integer qid, @Param("userprofilename") String userprofilename, @Param("datetime") String datetime);
 	
 	
-	@Query(value="select sum(claps) from korenani.claps_of_question where qid= :qid",nativeQuery = true)
+	@Query(value="select sum(claps) from claps_of_question where qid= :qid",nativeQuery = true)
 	public Integer getClapCountByQid(@Param("qid") Integer qid);
 	
 	
-	@Query(value="select datetime from korenani.claps_of_question where qid= :qid and userprofilename= :userprofilename",nativeQuery = true)
+	@Query(value="select datetime from claps_of_question where qid= :qid and userprofilename= :userprofilename",nativeQuery = true)
 	public String getDatetimeOfQuestionClapByUserProfileNameAndQid(@Param("qid") Integer qid, @Param("userprofilename") String userprofilename);
 	
 	
