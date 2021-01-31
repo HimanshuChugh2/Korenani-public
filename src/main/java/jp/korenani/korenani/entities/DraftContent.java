@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
+import org.hibernate.annotations.Type;
+
 import scala.inline;
 
 
@@ -19,6 +21,7 @@ public class DraftContent {
 	private String topic;
 	
 	@Lob
+	@Type(type = "org.hibernate.type.TextType")
     private String data;
 	private String description;
 	private String keywords;

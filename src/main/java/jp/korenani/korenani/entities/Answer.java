@@ -8,12 +8,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 public class Answer {
 	@Id	
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	@Lob
+	@Type(type = "org.hibernate.type.TextType")
 	private String data;
 	private int qid;
 	private String date;

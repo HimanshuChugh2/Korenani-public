@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 public class Question {
 
@@ -19,6 +21,7 @@ public class Question {
 	private String tags;
 	
 	@Lob
+	@Type(type = "org.hibernate.type.TextType")
 	private String data;
 	private String date;
 	private String userprofilename;
