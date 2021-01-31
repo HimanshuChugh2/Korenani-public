@@ -5,10 +5,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
 import jp.korenani.korenani.entities.AnswerClapCountAndAidWrapper;
 import jp.korenani.korenani.entities.AnswerDatetimeAndAidWrapperInterface;
 import jp.korenani.korenani.entities.ClapsOfAnswer;
 
+
+@Repository
+@Transactional
 public interface ClapsAnswerRepository extends JpaRepository<ClapsOfAnswer, Integer>  {
 
 	@Query(value="select exists (select * from claps_of_answer  where  aid=:aid);",nativeQuery = true)

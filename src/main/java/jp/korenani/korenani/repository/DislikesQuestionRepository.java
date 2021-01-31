@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import jp.korenani.korenani.entities.DislikesOfQuestion;
 
 @Repository
+@Transactional
 public interface DislikesQuestionRepository extends JpaRepository<DislikesOfQuestion, Integer> {
 	
 	@Query(value="select exists (select * from dislikes_of_question  where  qid=:qid and userprofilename= :userprofilename);",nativeQuery = true)

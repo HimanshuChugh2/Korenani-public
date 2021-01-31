@@ -13,6 +13,7 @@ import jp.korenani.korenani.entities.DraftContent;
 
 
 @Repository
+@Transactional
 public interface DraftContentRepository extends JpaRepository<DraftContent,Integer> 
 {
 
@@ -27,7 +28,7 @@ public interface DraftContentRepository extends JpaRepository<DraftContent,Integ
 	
 	@Transactional
 	@Modifying
-	@Query(value="update korenani.draft_content set id = :id , data = :data, description= :description ,keywords=:keywords ,level= :level , topic = :topic, username = :username, cid = :cid where id = :id", nativeQuery = true)
+	@Query(value="update draft_content set id = :id , data = :data, description= :description ,keywords=:keywords ,level= :level , topic = :topic, username = :username, cid = :cid where id = :id", nativeQuery = true)
 	public void updateDraft(@Param("id") int id, @Param("data") String data, @Param("description") String description, @Param("keywords") String keywords, @Param("level") String level, @Param("topic") String topic, @Param("username") String username,@Param("cid") int cid);
 
 	

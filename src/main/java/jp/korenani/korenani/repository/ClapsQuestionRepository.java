@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import jp.korenani.korenani.entities.ClapsOfQuestion;
 
 @Repository
+@Transactional
 public interface ClapsQuestionRepository  extends JpaRepository<ClapsOfQuestion, Integer> {
 
 	@Query(value="select exists (select * from claps_of_question  where  qid=:qid and userprofilename= :userprofilename);",nativeQuery = true)

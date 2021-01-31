@@ -16,6 +16,7 @@ import jp.korenani.korenani.entities.CreateContent;
 import jp.korenani.korenani.entities.CreatedFolder;
 import jp.korenani.korenani.entities.DraftContent;
 @Repository
+@Transactional
 public interface CreateContentRepository extends JpaRepository<CreateContent,Integer> 
 {
 

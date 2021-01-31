@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
  import jp.korenani.korenani.entities.CreatedFolder;
  
 @Repository
+@Transactional
 public interface FolderRepository extends JpaRepository<CreatedFolder, Integer> {
 
 	@Query(value="select DISTINCT foldername from created_folder   where  username = :username" ,nativeQuery = true)

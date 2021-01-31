@@ -2,6 +2,8 @@ package jp.korenani.korenani.repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,6 +13,7 @@ import jp.korenani.korenani.entities.Question;
 import jp.korenani.korenani.wrappers.QuestionPagintationWrapperInterface;
 
 @Repository
+@Transactional
 public interface QuestionRepository extends JpaRepository<Question, Integer>{
 
 	@Query(value = "select * from question where id = :id", nativeQuery = true)
