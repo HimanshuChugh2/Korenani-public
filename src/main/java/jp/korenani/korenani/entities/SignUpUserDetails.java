@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -39,6 +40,7 @@ public class SignUpUserDetails implements UserDetails {
 		private String name;
 		
 		@Lob
+		@Type(type = "org.hibernate.type.TextType")
 		private String userhomepagedata;
 		
 		
