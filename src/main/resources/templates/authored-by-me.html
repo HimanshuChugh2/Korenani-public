@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>Demo</title>
+    <title>Update Existing</title>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width"/>
     <base href="/"/>
@@ -18,7 +18,9 @@
    <div th:replace="fragments/header :: CreatorsNavbar">
 </div>
 <div class="container">
-<h3>Authored by me</h3>
+<div>
+<h3 class="mt-3" id="authoredbyme"></h3>
+</div>
 <hr>
 	<div th:each="content: ${contentData}">
 	
@@ -31,5 +33,23 @@
  	<hr>
  	</div>
 </div>
+
+
+<script>
+if([[${contentData}]]!=="[]")
+	{
+
+		//alert("[[${contentData}]]")
+ 		document.getElementById("authoredbyme").innerText="You have not created any course";
+
+	}
+else
+	{
+	document.getElementById("authoredbyme").innerText="Authored by me";
+
+ 
+	}
+ 
+</script>
 </body>
 </html>

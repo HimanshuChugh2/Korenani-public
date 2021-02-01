@@ -8,6 +8,8 @@
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width"/>
     <base href="/"/>
+        <link href="/mycss.css" th:href="@{css/typewriter-creator-home.css}"  rel="stylesheet"  type="text/css"/>
+  
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     
   <head th:replace="fragments/header :: headHeader">
@@ -23,13 +25,14 @@
 
   <div class=" container p-4">
  
-
-  
-   <h4 style="display:inline" class="font-weight-bold">
+<p id="typewriter-creator-home">
     <span class="fas fa-quote-left"></span>
    <cite>Share your knowledge. It is a way to achieve immortality.</cite>
    <span class="fas fa-quote-right"></span><br>
-   </h4>
+   </p>
+
+  
+  
    <br>
    <span class="font-weight-light">ーDalai Lama</span>
 

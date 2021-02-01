@@ -14,7 +14,6 @@
 <link href="/mystylesheet.css" th:href="@{css/modalpopup.css}"  rel="stylesheet"  type="text/css">
     <link href="/mycss.css" th:href="@{css/typewriter-effect.css}"  rel="stylesheet"  type="text/css"/>
 
- 	
   
 <head th:replace="fragments/header :: headHeader">   
 </head>
@@ -30,11 +29,13 @@
 <!-- th:action="@{/creators/creating}" -->
 <!-- <form    method="post">
  -->
-<div class="container" style="max-width:800px;">
+<div class="row">
+  <div class="col-md-3"></div>
+
+ <div class="col-md-6">
+<h1 class="pl-2 pb-2 pt-2" id="typewriter">You are Creating...</h1>
+<br>
  
-<p id="typewriter">You are Creating...</p>
-
-
 <Form th:object="${createContent}">
 
  
@@ -95,6 +96,9 @@
 <input class="btn btn-primary form-control"  type="submit" id="saveasdraft"  value="Save as draft" data-toggle="modal" data-target="#exampleModalCenter">
 </div> 
  </div>
+ </div>
+   <div class="col-md-3"></div>
+ 
 </div>
  
 

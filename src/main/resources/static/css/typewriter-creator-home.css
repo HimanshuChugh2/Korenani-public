@@ -1,6 +1,6 @@
  
 
-#typewriter {
+#typewriter-creator-home {
   border-right: solid 5px rgba(255,255,255,.75);
   white-space: nowrap;
   overflow: hidden;    
@@ -10,8 +10,8 @@
 }
 
 /* Animation */
-#typewriter {
-  animation: animated-text 1s linear 1s 1 normal both,
+#typewriter-creator-home {
+  animation: animated-text 2s linear 1s 1 normal both,
              animated-cursor 800ms linear infinite;
 }
 
@@ -19,7 +19,7 @@
 
 @keyframes animated-text{
   from{width: 0;}
-  to{width: 243px;}
+  to{width: 770px;}
 }
 
 /* cursor animations */

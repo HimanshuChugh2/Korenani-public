@@ -14,6 +14,7 @@ import jp.korenani.korenani.entities.AnswerDislikesCountAndAidWrapper;
 import jp.korenani.korenani.entities.DislikesOfAnswer;
 
 @Repository
+@Transactional
 public interface DislikesAnswersRepository extends JpaRepository<DislikesOfAnswer, Integer>{
 
 	@Query(value="select exists (select * from dislikes_of_answer  where  aid=:aid);",nativeQuery = true)

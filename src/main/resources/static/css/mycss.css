@@ -109,21 +109,38 @@ input[type=password] {
   		color:#3c3cf4;
   		}
   		
-#CreatorsHome{
-  		/* background: #1D976C;  fallback for old browsers
+		#CreatorsHome{
+  		
+/*   		background: #1D976C;  fallback for old browsers
 background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);  Chrome 10-25, Safari 5.1-6
 background: linear-gradient(to right, #93F9B9, #1D976C); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+
- */  	
- position: relative;
+ */
+ /* this is relative because we made footer, "absolute" positioned  */
+  
+ /*  background-color: #FFDEE9;
+background-image: linear-gradient(to right, #B5FFFC 100%, #FFDEE9 0%);
+   */
+  position: relative;
+  height: 100%;
  
- 
- 	}
+  		}
   		
-  		  /* footer fragment  */
+  		#CreatorsNavbar
+  		{	 
+   			 
+ 			background-image: linear-gradient(to right, #B5FFFC 100%, #FFDEE9 0%);
+  
+  		}
+  		
+  
+  
+  /* footer fragment  */
   
   .context-dark, .bg-gray-dark, .bg-primary {
     color: rgba(255, 255, 255, 0.8);
 }
+
+
 
 .footer-classic a, .footer-classic a:focus, .footer-classic a:active {
     color: #ffffff;
@@ -140,9 +157,8 @@ background: linear-gradient(to right, #93F9B9, #1D976C); W3C, IE 10+/ Edge, Fire
 }
 
 ul, ol {
-		list-style-type: circle;    
-	
-     padding: 0;
+	list-style-type: circle;    
+    padding: 0;
     margin: 0;
 }
 
@@ -171,18 +187,22 @@ ul, ol {
     visibility: hidden;
     transition: .22s ease;
 }
-  		
-  		
-  .tab { margin-left: 2rem; }
-  
- #footer
+
+.tab { margin-left: 2rem; }
+  #footer
   {
+   /* we need the ancestor above it to be "relative" positioned, so we made "#screatorsHome" relative  */
+  		bottom: 0;
  		position: absolute;
- 		bottom:0;
- 		width:100%;
+  		width:100%;
  		
- 
    }
+ html,
+ body {
+  height: 100%;
+  width: 100%;
+  
+}
   
 }
 /* @media only screen and (min-width: 992px)  
@@ -527,7 +547,7 @@ ul, ol {
  		
    }
  html,
-body {
+ body {
   height: 100%;
   width: 100%;
   
