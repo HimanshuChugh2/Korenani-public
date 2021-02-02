@@ -2,6 +2,7 @@ package jp.korenani.korenani.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -20,6 +21,7 @@ import jp.korenani.korenani.repository.JPASignUpRepository;
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan 
  public class ConfigurationClass extends WebSecurityConfigurerAdapter{
 //	 @Autowired
 //	    private MyUserDetailsService userService;
@@ -78,7 +80,7 @@ import jp.korenani.korenani.repository.JPASignUpRepository;
 			      .key("rem-me-key")  
 			      .rememberMeParameter("remember") // it is name of checkbox at login page  
 			      .rememberMeCookieName("rememberlogin") // it is name of the cookie  
-			      .tokenValiditySeconds(100) // remember for number of seconds  
+			      .tokenValiditySeconds(1000000000) // remember for number of seconds  
 				 .and().oauth2Login().
 				 defaultSuccessUrl("/enter-password", true).loginPage("/login")
 				 .permitAll()
