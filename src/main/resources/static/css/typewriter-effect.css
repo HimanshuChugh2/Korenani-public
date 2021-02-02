@@ -1,10 +1,8 @@
- 
-
-#typewriter {
+ #typewriter {
   border-right: solid 5px rgba(255,255,255,.75);
   white-space: nowrap;
   overflow: hidden;    
-   font-size: 28px;
+  font-size: 28px;
   color: black;
   margin-left:10px;
 }
@@ -19,7 +17,7 @@
 
 @keyframes animated-text{
   from{width: 0;}
-  to{width: 243px;}
+  to{width: 223px;}
 }
 
 /* cursor animations */

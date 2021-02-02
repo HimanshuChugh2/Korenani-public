@@ -73,13 +73,24 @@ import jp.korenani.korenani.repository.JPASignUpRepository;
 				 * HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) )
 				 */ 
 				.formLogin().defaultSuccessUrl("/restricted").loginPage("/login")
+			     .and()  
+				.rememberMe()  
+			      .key("rem-me-key")  
+			      .rememberMeParameter("remember") // it is name of checkbox at login page  
+			      .rememberMeCookieName("rememberlogin") // it is name of the cookie  
+			      .tokenValiditySeconds(100) // remember for number of seconds  
 				 .and().oauth2Login().
 				 defaultSuccessUrl("/enter-password", true).loginPage("/login")
 				 .permitAll()
 				 .and()
 		            .logout().deleteCookies("JSESSIONID")
 		            .and()
-		            .rememberMe().key("uniqueAndSecret")	
+		            .rememberMe()  
+		            .key("rem-me-key")
+		            .rememberMeParameter("rememberme") // it is name of checkbox at login page  
+		            .rememberMeCookieName("rememberlogin") // it is name of the cookie  
+		            .tokenValiditySeconds(100) // remember for number of seconds  
+		           
 				 ;
         // @formatter:on
     }
