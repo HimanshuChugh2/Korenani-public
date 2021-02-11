@@ -1,5 +1,7 @@
 package jp.korenani.korenani.config;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -37,6 +39,9 @@ import jp.korenani.korenani.repository.JPASignUpRepository;
 	@Autowired
 	JPASignUpRepository jpasignuprepository;
 	
+	@Resource
+	UserDetailsService userDetailsService;
+	
 	 @Override
 	    protected void configure(HttpSecurity http) throws Exception {
 	    	// @formatter:off
@@ -70,7 +75,7 @@ import jp.korenani.korenani.repository.JPASignUpRepository;
                 .antMatchers("/", "/error", "/webjars/**","/error-pages/**","/signup","/user", "/accessible","/enter-existing-password","/showit","/css/style.css","/index").permitAll()
                 .anyRequest().authenticated()
             )
-				/*
+				/* 
 				 * .exceptionHandling(e -> e .authenticationEntryPoint(new
 				 * HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) )
 				 */ 
@@ -87,11 +92,8 @@ import jp.korenani.korenani.repository.JPASignUpRepository;
 				 .and()
 		            .logout().deleteCookies("JSESSIONID")
 		            .and()
-		            .rememberMe()  
-		            .key("rem-me-key")
-		            .rememberMeParameter("rememberme") // it is name of checkbox at login page  
-		            .rememberMeCookieName("rememberlogin") // it is name of the cookie  
-		            .tokenValiditySeconds(100) // remember for number of seconds  
+		            .rememberMe().userDetailsService(userDetailsService);
+		            //.tokenValiditySeconds(100) // remember for number of seconds  
 		           
 				 ;
         // @formatter:on
