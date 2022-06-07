@@ -1,5 +1,7 @@
 package jp.korenani.korenani;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 	
@@ -14,12 +16,12 @@ public class KorenaniApplication {
 	}
 	
 	// this is used for recaptcha
-	@Bean
+	@Bean 
 	public RestTemplate restTemplate()
 	{
 		return new RestTemplate();
 	}
-
+	
 //	@Bean  
 //    public TomcatServletWebServerFactory tomcatEmbedded() {  
 //

@@ -15,7 +15,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import jp.korenani.korenani.entities.SignUpUserDetails;
- import jp.korenani.korenani.repository.JPASignUpRepository;
+import jp.korenani.korenani.entities.SignUpUserDetailsImpl;
+import jp.korenani.korenani.repository.JPASignUpRepository;
 
  @Service
    public class MyUserDetailsService implements UserDetailsService {
@@ -36,7 +37,7 @@ import jp.korenani.korenani.entities.SignUpUserDetails;
  //here we are calling that constructer method to get the values here (MyUserDetails class is same as SignUp entity) this constructor method will convert the object to appropriate UserDetails object
       
 
-         return user.map(SignUpUserDetails::new).get();
+         return user.map(SignUpUserDetailsImpl::new).get();
      }
  	
 	/*

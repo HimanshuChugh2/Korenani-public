@@ -1,159 +1,158 @@
- 
+
 
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">  
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>Login to Korenani。</title>
-    <meta name="description" content=""/>
-    <meta name="viewport" content="width=device-width"/>
-    <base href="/"/>
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
-  	<head th:replace="fragments/header :: headHeader">
-
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Login to Korenani。</title>
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width" />
+<base href="/" />
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<head th:replace="fragments/header :: headHeader">
 
 
 
- 
+
+
 </head>
 <body>
-  
-  <div th:replace="fragments/header :: navForViewer">
-</div>
-<div id="fb-root"></div>
- 
 
- 
+	<div th:replace="fragments/header :: navForViewer"></div>
+	<div id="fb-root"></div>
+
+
+
 
 	<div>
-	 <br>
-			<div class="signincontainer border shadow-lg">  
-	
-	<div class="socialsignincontents">
-	<h2>
- 	Welcome to Korenani。
-	</h2>
-	<hr/>
-	</div>
- <div>
- <div class="alert alert-primary" id="alreadyloggedindiv" style="text-align: center; display:none">
-		<span id="alreadyloggedin"></span>
-	
-		</div>
-			
-		</div>
-		 
-		  <div th:if="${profileNameAlreadyExists}">
-		  <div class="alert alert-danger">
-		  <h4 class="alert-heading">Error: </h4>	
-		  <span th:text="${profileNameAlreadyExists}"></span>
-		  
-		 
-		</div>
-		 <hr/>
-		</div>
-		 
+		<br>
+		<div class="signincontainer border shadow-lg">
+
+			<div class="socialsignincontents">
+				<h2>Welcome to Korenani。</h2>
+				<hr />
+			</div>
+			<div>
+				<div class="alert alert-primary" id="alreadyloggedindiv"
+					style="text-align: center; display: none">
+					<span id="alreadyloggedin"></span>
+
+				</div>
+
+			</div>
+
+			<div th:if="${profileNameAlreadyExists}">
+				<div class="alert alert-danger">
+					<h4 class="alert-heading">Error:</h4>
+					<span th:text="${profileNameAlreadyExists}"></span>
 
 
-<div  th:if="${validationerroroccoured}">
-<div class="alert alert-danger">
- 		<h4 class="alert-heading">Error: </h4>
-		<span th:text="${validationerroroccoured}"></span>
-		</div>
-		 <hr/>
-		</div>
+				</div>
+				<hr />
+			</div>
 
-<div th:if="${recaptchaerror}">
- <div class="alert alert-danger"> 
-	      <h4 class="alert-heading">Error: </h4>
-	<span th:text="${recaptchaerror}"></span>
-		
-	</div>
-	 <hr/>
-	</div>
-	
-	
-	<div th:if="${message}">
- <div class="alert alert-danger"> 
-	      <h4 class="alert-heading">Error: </h4>
-	<span th:text="${message}"></span>
-		
-	</div>
 
-	
-	 <hr/>
-	</div>
-		<div th:if="${SignUpSuccessMessage}">
-	
-		 <div class="alert alert-primary"> 
-	      <h4 class="alert-heading">Success </h4>
-	<span th:text="${SignUpSuccessMessage}"></span>
-		</div>
-	</div>
-	
- <ul class="nav nav-tabs justify-content-center" style="color:red" id="myTab" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="true">Sign in</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="signup-tab" data-toggle="tab" href="#signup" role="tab" aria-controls="signup" aria-selected="false">Sign up</a>
-  </li>
-  	</ul>
-<div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
-  
-  
-  <form action="#" th:action="@{/login}" method="post" >
-  
-  <div> 
-    <h2 style="text-align:center" class="p-2">Sign in here</h2>
-   
-   	<div  th:if="${param.logout}" class="alert alert-success">
-	You have been logged out from the session
-	</div>
-	
-	<div  th:if="${param.error}" class="alert alert-danger">
-	Invalid username or Password
-	</div>
-   
-<div class="border shadow-sm mb-5 bg-white p-5 rounded customsignincontents"> 
- 	
-		
- 	<div class="form-group">
-    <label>Email or Username:</label>
-     <input required type="text" name="username" autofocus class="form-control form-control-sm"  placeholder="tatoe@reiMail.com" id="username" >
-   </div>
- 
-   <div class="form-group">
-   <label for="password">Password: </label>
-   <input required class="form-control form-control-sm" type="Password" placeholder="ichinisanshigo"  name="password">
-          	  
-   </div>
-      <div class="form-group"> 
-      <input type="checkbox" name="remember-me" id="remember-me">
-        <label for="remember-me"> Keep me signed in</label><br>
-      
-      </div>
-   
-      <i class="fas fa-sign-in-alt"></i>
 
-      
-    <input type="submit"  value="Login" class="btn btn-warning"   onclick="loginclicked()" id="login">
- 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   <!-- copied from login.html -->
-    <!-- 	<div class="innerdiv border-white border-left shadow-lg mb-5 bg-white p-5 rounded"> 
+			<div th:if="${validationerroroccoured}">
+				<div class="alert alert-danger">
+					<h4 class="alert-heading">Error:</h4>
+					<span th:text="${validationerroroccoured}"></span>
+				</div>
+				<hr />
+			</div>
+
+			<div th:if="${recaptchaerror}">
+				<div class="alert alert-danger">
+					<h4 class="alert-heading">Error:</h4>
+					<span th:text="${recaptchaerror}"></span>
+
+				</div>
+				<hr />
+			</div>
+
+
+			<div th:if="${message}">
+				<div class="alert alert-danger">
+					<h4 class="alert-heading">Error:</h4>
+					<span th:text="${message}"></span>
+
+				</div>
+
+
+				<hr />
+			</div>
+			<div th:if="${SignUpSuccessMessage}">
+
+				<div class="alert alert-primary">
+					<h4 class="alert-heading">Success</h4>
+					<span th:text="${SignUpSuccessMessage}"></span>
+				</div>
+			</div>
+
+			<ul class="nav nav-tabs justify-content-center" style="color: red"
+				id="myTab" role="tablist">
+				<li class="nav-item"><a class="nav-link active" id="signin-tab"
+					data-toggle="tab" href="#signin" role="tab" aria-controls="signin"
+					aria-selected="true">Sign in</a></li>
+				<li class="nav-item"><a class="nav-link" id="signup-tab"
+					data-toggle="tab" href="#signup" role="tab" aria-controls="signup"
+					aria-selected="false">Sign up</a></li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade show active" id="signin" role="tabpanel"
+					aria-labelledby="signin-tab">
+
+
+					<form action="#" th:action="@{/login}" method="post">
+
+						<div>
+							<h2 style="text-align: center" class="p-2">Sign in here</h2>
+
+							<div th:if="${param.logout}" class="alert alert-success">
+								You have been logged out from the session</div>
+
+							<div th:if="${param.error}" class="alert alert-danger">
+								Invalid username or Password</div>
+
+							<div
+								class="border shadow-sm mb-5 bg-white p-5 rounded customsignincontents">
+
+
+								<div class="form-group">
+									<label>Email or Username:</label> <input required type="text"
+										name="username" autofocus class="form-control form-control-sm"
+										placeholder="tatoe@reiMail.com" id="username">
+								</div>
+
+								<div class="form-group">
+									<label for="password">Password: </label> <input required
+										class="form-control form-control-sm" type="Password"
+										placeholder="ichinisanshigo" name="password">
+
+								</div>
+								<div class="form-group">
+									<input type="checkbox" name="remember-me" id="remember-me">
+									<label for="remember-me"> Keep me signed in</label><br>
+
+								</div>
+
+								<i class="fas fa-sign-in-alt"></i> <input type="submit"
+									value="Login" class="btn btn-warning" onclick="loginclicked()"
+									id="login">
+
+
+
+
+
+
+
+
+
+
+
+								<!-- copied from login.html -->
+								<!-- 	<div class="innerdiv border-white border-left shadow-lg mb-5 bg-white p-5 rounded"> 
  	  
  	 
 	
@@ -172,32 +171,32 @@
     			
  <a href="sign-up" > Sign up</a>
        	 </div> -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    </div>
- </div>
- </form>
- 
- 
-<!--  <form action="#" 	th:action="@{/login}" method="post">
- -->  
-  	
- 
-<!--        	<form action="#" 	th:action="@{/login}" method="post">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+							</div>
+						</div>
+					</form>
+
+
+					<!--  <form action="#" 	th:action="@{/login}" method="post">
+ -->
+
+
+					<!--        	<form action="#" 	th:action="@{/login}" method="post">
  	<div class="container p-5"> 
  	<h2>	Login</h2>
  	<div  th:if="${param.logout}" class="alert alert-success">
@@ -227,220 +226,215 @@
        	
        </div>
 	</form>  
- -->       	
-       	
-   
- 
- 
- 
- 
- 
- 
- 
- 
- 
- </div>
-<!--        <button onclick="logout()" class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button> -->
- 
-  <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
-  <h2 style="text-align:center" class="p-2">
- Sign up here
-  </h2>
- 
+ -->
 
-	
- <form action="#" th:action="@{/signup}" method="post"  th:object="${signUpUser}">
- <div class="border shadow-sm mb-5 bg-white p-5 rounded customsignincontents">
-   
-            
-      
-<!-- <div class="form-group">
+
+
+
+
+
+
+
+
+
+
+				</div>
+				<!--        <button onclick="logout()" class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button> -->
+
+				<div class="tab-pane fade" id="signup" role="tabpanel"
+					aria-labelledby="signup-tab">
+					<h2 style="text-align: center" class="p-2">Sign up here</h2>
+
+
+
+					<form action="#" th:action="@{/signup}" method="post"
+						th:object="${signUpUser}">
+						<div
+							class="border shadow-sm mb-5 bg-white p-5 rounded customsignincontents">
+
+
+
+							<!-- <div class="form-group">
     <label  for="userProfileName" >User name:</label> 
     <input th:field="*{userProfileName}" class="form-control form-control-sm"  type="text"  placeholder="Profile User name" name="userProfileName" >
     <div class="alert alert-danger" th:if="${#fields.hasErrors('userProfileName')}" th:errors="*{userProfileName}"></div>
     </div> -->
-   
- 
-    <div class="form-group">
-   <label for ="username"> Email:    </label>
-    <input th:field="*{username}" class="form-control form-control-sm" type="text" placeholder="eg. korenani@usermail.com" name="username" >				 
-   <div class="alert alert-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
-   </div>
-   
-   <div class="form-group">
-   <label  for="password">Password: </label>
-   <input th:field="*{password}" class="form-control form-control-sm" type="Password" placeholder="password"  name="password">			
-   <div class="alert alert-danger"  th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-  <br>
-     <div class="form-group">
-  
-        <div class="g-recaptcha form-group" data-sitekey="6Ldn0LIZAAAAANc4U9iZnTvmh1NxsKpXmWZcg3KC" style="width:10px;"></div>
-        </div>
-  <br>
-   <input type="submit" value="Submit" class="btn btn-warning">
-      
-  	
-   </div>
-         <a href="/login"  class="btn-link">Already registered? Click here</a> 
-   </div>
-   
-    </form>
-   
-   
-  </div>
- 
-  
- </div>
- 
-<hr/>
- <div style="text-align:center">
- 
- Or login with SNS (no need to sign-up) !
- </div>
- 
- 
-  <hr/>
- 
- 
- 
- 
- 
- <div class="socialsignincontents">  
 
-  
- 
-  <span>
-  <a href="/oauth2/authorization/google">
-  <span class="fab fa-google fa-3x signinicons" id="signinGoogleIcon"></span>
-   </a>
-  </span>
-  	
-  <span>
-  <a href="/oauth2/authorization/facebook">
-  <span class="fab fa-facebook fa-3x signinicons" id="signinFbIcon"></span>
-  </a>
-  </span>
-  
-<!--     <span>
+
+							<div class="form-group">
+								<label for="username"> Email: </label> <input
+									th:field="*{username}" class="form-control form-control-sm"
+									type="text" placeholder="eg. korenani@usermail.com"
+									name="username">
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('username')}"
+									th:errors="*{username}"></div>
+							</div>
+
+							<div class="form-group">
+								<label for="password">Password: </label> <input
+									th:field="*{password}" class="form-control form-control-sm"
+									type="Password" placeholder="password" name="password">
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('password')}"
+									th:errors="*{password}"></div>
+								<br>
+								<div class="form-group">
+
+									<div class="g-recaptcha form-group"
+										data-sitekey="6Ldn0LIZAAAAANc4U9iZnTvmh1NxsKpXmWZcg3KC"
+										style="width: 10px;"></div>
+								</div>
+								<br> <input type="submit" value="Submit"
+									class="btn btn-warning">
+
+
+							</div>
+							<a href="/login" class="btn-link">Already registered? Click
+								here</a>
+						</div>
+
+					</form>
+
+
+				</div>
+
+
+			</div>
+
+			<hr />
+			<div style="text-align: center">Or login with SNS (no need to
+				sign-up) !</div>
+
+
+			<hr />
+
+
+
+
+
+			<div class="socialsignincontents">
+
+
+
+				<span> <a href="/oauth2/authorization/google"> <span
+						class="fab fa-google fa-3x signinicons" id="signinGoogleIcon"></span>
+				</a>
+				</span> <span> <a href="/oauth2/authorization/facebook"> <span
+						class="fab fa-facebook fa-3x signinicons" id="signinFbIcon"></span>
+				</a>
+				</span>
+
+				<!--     <span>
   <a href="/oauth2/authorization/github">
   <img class="signinicons shadow"  th:src="@{images/signingithub.png}"/>
   </a>
   </span> -->
-  </div>  
- </div>
- <br>
-  <div id="footer" th:replace="fragments/header :: footerBlack">
-   </div>
-</div>
+			</div>
+		</div>
+		<br>
+		<div id="footer" th:replace="fragments/header :: footerBlack"></div>
+	</div>
 
 
-<!--  <div class="container authenticated" style="display: none">
+	<!--  <div class="container authenticated" style="display: none">
         Logged in as: <span id="user"></span>
         <div>
             <button onClick="logout()" class="btn btn-primary">Logout</button>
         </div>
         </div> -->
- 
-   
-   
- 
 
-  <script type="text/javascript">
-          $
-              .ajaxSetup({
-                beforeSend : function(xhr, settings) {
-                  if (settings.type == 'POST' || settings.type == 'PUT'
-                      || settings.type == 'DELETE') {
-                    if (!(/^http:.*/.test(settings.url) || /^https:.*/
-                        .test(settings.url))) {
-                      // Only send the token to relative URLs i.e. locally.
-                      xhr.setRequestHeader("X-XSRF-TOKEN",
-                          Cookies.get('XSRF-TOKEN'));
-                    }
-                  }
-                }
-              });
-          
-         
-          
-          var savepassword= function()
-          {
-        	  
-        	  $.get("/save-password", function(data) {
-        		  console.log("login 2")
-              });
-        	  
-          }
-        	  
-            	$.get("/user", function(data) {
-              $("#user").html(data.name);
-            /*   $(".unauthenticated").hide()
-              $(".authenticated").show() */
-              console.log("login 1")
-          });  
-          $.get("/restricted", function(data) {
 
-            });
-          
-          $.get("/login", function(data) {
-           });
-          
-          /* var logout = function() { 
-        	    $.post("/logout", function() {
-        	        $("#user").html('');
-        	        $(".unauthenticated").show();
-        	        $(".authenticated").hide();
-         	        localStorage.removeItem("userprofilename"); 
-					document.getElementById("userprofilenameHeader").innerText="";
-					document.getElementById("alreadyloggedin").innerText="";					
-    				console.log("clicked on logout2")
-        	    })
-        	    return true;
-          } */
-          
-          
-/*           function loginclicked()
-          {
-        	  alert("login clicked")
-          } */
-          
-          $("#login").click(function(){
-       		var username=document.getElementById("username").value;
-       		// alert(username);
-          		/* alert(JSON.stringify(questionResponse)); */
-       		$.ajax({
-       		type : "POST", 
-       		contentType : "application/json; charset=UTF-8",
-       		url : "loginsessionsave", 
-       		data : JSON.stringify(username),
-       		dataType : 'json',	
-       		success : function( ) {
-       			// Code to display the response.
-       			//alert("in success");
-        		}
-       		});
-   			//console.log("ajax function ends")
 
-       		});
-        </script>
-        
-        <script>
-        
-        
-        if(	z!==null  && localStorage.getItem("userprofilename")!=="")
-        	{
-        	document.getElementById("alreadyloggedindiv").style.display="block";
-          $('#alreadyloggedin').text("You are logged in as:   "+localStorage.getItem("userprofilename")); 
-        	}
-        else
-        	{
-        	
-        	}
-        </script>
-        
-<script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
+
+
+	<script type="text/javascript">
+		$.ajaxSetup({
+			beforeSend : function(xhr, settings) {
+				if (settings.type == 'POST' || settings.type == 'PUT'
+						|| settings.type == 'DELETE') {
+					if (!(/^http:.*/.test(settings.url) || /^https:.*/
+							.test(settings.url))) {
+						// Only send the token to relative URLs i.e. locally.
+						xhr.setRequestHeader("X-XSRF-TOKEN", Cookies
+								.get('XSRF-TOKEN'));
+					}
+				}
+			}
+		});
+
+		var savepassword = function() {
+
+			$.get("/save-password", function(data) {
+				console.log("login 2")
+			});
+
+		}
+
+		$.get("/user", function(data) {
+			$("#user").html(data.name);
+			/*   $(".unauthenticated").hide()
+			  $(".authenticated").show() */
+			console.log("login 1")
+		});
+		$.get("/restricted", function(data) {
+
+		});
+
+		$.get("/login", function(data) {
+		});
+
+		/* var logout = function() { 
+		    $.post("/logout", function() {
+		        $("#user").html('');
+		        $(".unauthenticated").show();
+		        $(".authenticated").hide();
+		        localStorage.removeItem("userprofilename"); 
+				document.getElementById("userprofilenameHeader").innerText="";
+				document.getElementById("alreadyloggedin").innerText="";					
+				console.log("clicked on logout2")
+		    })
+		    return true;
+		} */
+
+		/*           function loginclicked()
+		 {
+		 alert("login clicked")
+		 } */
+
+		$("#login").click(function() {
+			var username = document.getElementById("username").value;
+			// alert(username);
+			/* alert(JSON.stringify(questionResponse)); */
+			$.ajax({
+				type : "POST",
+				contentType : "application/json; charset=UTF-8",
+				url : "loginsessionsave",
+				data : JSON.stringify(username),
+				dataType : 'json',
+				success : function() {
+					// Code to display the response.
+					//alert("in success");
+				}
+			});
+			//console.log("ajax function ends")
+
+		});
+	</script>
+
+	<script>
+		if (z !== null && localStorage.getItem("userprofilename") !== "") {
+			document.getElementById("alreadyloggedindiv").style.display = "block";
+			$('#alreadyloggedin').text(
+					"You are logged in as:   "
+							+ localStorage.getItem("userprofilename"));
+		} else {
+
+		}
+	</script>
+
+	<script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
 </body>
 </html>
 
- 
- 
+

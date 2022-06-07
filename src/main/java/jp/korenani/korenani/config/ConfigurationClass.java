@@ -72,17 +72,21 @@ import jp.korenani.korenani.repository.JPASignUpRepository;
 	                .logoutSuccessUrl("/").permitAll()
 	             )
             .authorizeRequests(a -> a
-                .antMatchers("/", "/error", "/webjars/**","/error-pages/**","/signup","/user", "/accessible","/enter-existing-password","/showit","/css/style.css","/index").permitAll()
-                .anyRequest().authenticated()
+            		.antMatchers("/ask-question").hasAnyRole("USER","ADMIN")
+            		.antMatchers("/creators").hasAnyRole("ADMIN")
+            		.antMatchers("/", "/error", "/webjars/**","/error-pages/**","/signup","/user", "/accessible","/enter-existing-password","/showit","/css/style.css","/index").permitAll()
+                
+                
+                
             )
 				/* 
 				 * .exceptionHandling(e -> e .authenticationEntryPoint(new
 				 * HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) )
 				 */ 
 				.formLogin().defaultSuccessUrl("/restricted").loginPage("/login")
-			     .and()  
-				.rememberMe()  
-			      .key("rem-me-key")  
+			     .and()
+				.rememberMe()
+			      .key("rem-me-key")
 			      .rememberMeParameter("remember") // it is name of checkbox at login page  
 			      .rememberMeCookieName("rememberlogin") // it is name of the cookie  
 			      .tokenValiditySeconds(1000000000) // remember for number of seconds  
@@ -93,8 +97,7 @@ import jp.korenani.korenani.repository.JPASignUpRepository;
 		            .logout().deleteCookies("JSESSIONID")
 		            .and()
 		            .rememberMe().userDetailsService(userDetailsService);
-		            //.tokenValiditySeconds(100) // remember for number of seconds  
-		           
+		            //.tokenValiditySeconds(100) // remember for number of seconds 
 				 ;
         // @formatter:on
     }
