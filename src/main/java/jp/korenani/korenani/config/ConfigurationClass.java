@@ -114,8 +114,8 @@ import jp.korenani.korenani.repository.JPASignUpRepository;
             .permitAll();*/
 	        
 	 	 
-					
-	           
+			
+	         
 	        // @formatter:on
 	    
 	@Override
